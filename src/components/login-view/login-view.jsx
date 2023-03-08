@@ -16,6 +16,8 @@ const LoginView = ({ onLoggedIn }) => {
           onLoggedIn(data.user, data.token);
         } else {
           alert('Invalid credentials');
+          setUsername('');
+          setPassword('');
         }
       })
       .catch((err) => console.error(err));

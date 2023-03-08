@@ -68,13 +68,11 @@ const MainView = () => {
     const relatedMovies = findRelatedMovies(movies, selectedMovie);
     return (
       <div>
+        <button onClick={handleDeselectMovie}>To Movie List</button>
         <button onClick={handleLogout}>Logout</button>
         <br />
-        <MovieView
-          key={selectedMovie._id}
-          movie={selectedMovie}
-          onBackClick={handleDeselectMovie}
-        />
+        <h2>Movie View</h2>
+        <MovieView key={selectedMovie._id} movie={selectedMovie} />
         <br />
         <h2>Related Movies</h2>
         {relatedMovies.map((movie) => (
@@ -96,6 +94,7 @@ const MainView = () => {
     <div>
       <button onClick={handleLogout}>Logout</button>
       <br />
+      <h2>Movies</h2>
       {movies.map((movie) => (
         <MovieCard
           key={movie._id}

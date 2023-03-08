@@ -23,11 +23,14 @@ const SignupView = () => {
     })
       .then((response) => {
         if (response.ok) {
-          alert('Signup successful');
+          alert('Signup successful. Please login.');
           window.location.reload();
         } else {
-          alert('Signup failed');
-          console.log(response.json);
+          return response.json().then((data) => {
+            console.log(data);
+            const message = data.message ? `. ${data.message}.` : '';
+            alert(`Signup failed${message}`);
+          });
         }
       })
       .catch((err) => console.error(err));

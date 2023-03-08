@@ -1,8 +1,10 @@
 {
   "name": "itflix-client",
+  "source": "src/index.html",
   "version": "1.0.0",
   "description": "React client using movie-api",
   "scripts": {
+    "start": "parcel",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
