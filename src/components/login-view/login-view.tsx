@@ -1,18 +1,18 @@
 import * as React from 'react';
-import { useState, FormEvent, FC} from 'react';
+import { useState, FormEvent, FC } from 'react';
 import { User } from '../../interfaces/interfaces';
 import { composeLoginUrl } from '../../utils/api-urls';
 
 interface LoginProps {
-  onLoggedIn: Function
+  onLoggedIn: Function;
 }
 
 interface LoginResponse {
-  user?: User,
-  token?: string
+  user?: User;
+  token?: string;
 }
 
-const LoginView: FC<LoginProps> = ({ onLoggedIn }) => {
+const LoginView = ({ onLoggedIn }: LoginProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -61,9 +61,7 @@ const LoginView: FC<LoginProps> = ({ onLoggedIn }) => {
           </label>
         </div>
         <div>
-          <button type="submit">
-            Login
-          </button>
+          <button type="submit">Login</button>
         </div>
       </form>
     </div>

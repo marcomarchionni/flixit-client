@@ -1,12 +1,12 @@
 import React from 'react';
 import { useState } from 'react';
-import { User } from '../../interfaces/interfaces';
+import { ErrorResponse, User } from '../../interfaces/interfaces';
 import { SIGNUP_URL } from '../../utils/api-urls';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState<Date>();
+  const [birthday, setBirthday] = useState<Date | null>(null);
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -28,9 +28,9 @@ const SignupView = () => {
           alert('Signup successful. Please login.');
           window.location.reload();
         } else {
-          return response.json().then((data) => {
-            const message = data.message ? `. ${data.message}.` : '';
-            alert(`Signup failed${message}`);
+          return response.json().then((data: ErrorResponse) => {
+            const failureReason = data.message ? `. ${data.message}.` : '';
+            alert(`Signup failed${failureReason}`);
           });
         }
       })

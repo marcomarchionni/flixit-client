@@ -32,5 +32,10 @@ export interface User {
   username: string;
   email: string;
   password: string;
-  birthday?: Date;
+  birthday?: Date | null;
+}
+
+export interface ErrorResponse {
+  status: number;
+  message: string;
 }

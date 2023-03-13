@@ -1,8 +1,11 @@
-import React from "react";
-import { Movie } from "../../interfaces/interfaces";
+import React from 'react';
+import { Movie } from '../../interfaces/interfaces';
 
+interface MovieViewProps {
+  movie: Movie;
+}
 
-const MovieView: React.FC<{movie: Movie}> = ({ movie }) => {
+const MovieView = ({ movie }: MovieViewProps) => {
   const stars = movie.stars.map((star) => star.name).join(', ');
   return (
     <div>

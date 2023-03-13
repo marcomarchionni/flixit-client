@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import MovieCard from '../movie-card/movie-card';
 import MovieView from '../movie-view/movie-view';
-import { findRelatedMovies } from '../../utils/functions';
+import { findRelatedMovies } from '../../utils/utils';
 import { MOVIES_URL } from '../../utils/api-urls';
 import LoginView from '../login-view/login-view';
 import SignupView from '../signup-view/signup-view';
@@ -12,7 +12,9 @@ const MainView = () => {
   const storedUser = localStorage.getItem('user');
   const storedToken = localStorage.getItem('token');
   const storedMovie = localStorage.getItem('selectedMovie');
-  const [user, setUser] = useState<string>(storedUser ? JSON.parse(storedUser) : '');
+  const [user, setUser] = useState<string>(
+    storedUser ? JSON.parse(storedUser) : ''
+  );
   const [token, setToken] = useState<string>(
     storedToken ? JSON.parse(storedToken) : ''
   );
