@@ -6,7 +6,7 @@ import { SIGNUP_URL } from '../../utils/api-urls';
 const SignupView = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState<Date | null>(null);
+  const [birthday, setBirthday] = useState('');
   const [password, setPassword] = useState('');
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
@@ -69,8 +69,10 @@ const SignupView = () => {
             Birthday:
             <input
               type="date"
-              value={birthday?.toDateString()}
-              onChange={(e) => setBirthday(new Date(e.target.value))}
+              value={birthday}
+              onChange={(e) => setBirthday(e.target.value)}
+              required
+              max={new Date().toISOString().substring(0, 10)}
             ></input>
           </label>
         </div>
@@ -82,6 +84,7 @@ const SignupView = () => {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
+              minLength={4}
             ></input>
           </label>
         </div>

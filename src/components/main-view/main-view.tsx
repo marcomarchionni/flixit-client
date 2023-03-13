@@ -22,6 +22,7 @@ const MainView = () => {
     storedMovie ? JSON.parse(storedMovie) : null
   );
   const [movies, setMovies] = useState<Movie[]>([]);
+  const [loadingMovies, setLoadingMovies] = useState(false);
 
   const handleLogin = (dataUser: string, dataToken: string) => {
     setUser(dataUser);
@@ -50,10 +51,12 @@ const MainView = () => {
     if (!token) {
       return;
     }
+    setLoadingMovies(true);
     fetch(MOVIES_URL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => response.json())
       .then((movieData: Movie[]) => {
         setMovies(movieData);
+        setLoadingMovies(false);
       })
       .catch((err: Error) => console.error(err));
   }, [token]);
@@ -90,6 +93,10 @@ const MainView = () => {
         ))}
       </div>
     );
+  }
+
+  if (loadingMovies) {
+    return <div>Loading...</div>;
   }
 
   if (movies.length === 0) {

@@ -32,7 +32,7 @@ export interface User {
   username: string;
   email: string;
   password: string;
-  birthday?: Date | null;
+  birthday: string;
 }
 
 export interface ErrorResponse {
