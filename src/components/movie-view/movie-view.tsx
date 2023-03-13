@@ -1,6 +1,8 @@
-import PropTypes from 'prop-types';
+import React from "react";
+import { Movie } from "../../interfaces/interfaces";
 
-const MovieView = ({ movie }) => {
+
+const MovieView: React.FC<{movie: Movie}> = ({ movie }) => {
   const stars = movie.stars.map((star) => star.name).join(', ');
   return (
     <div>
@@ -33,25 +35,6 @@ const MovieView = ({ movie }) => {
       </div>
     </div>
   );
-};
-
-MovieView.propTypes = {
-  movie: PropTypes.shape({
-    title: PropTypes.string.isRequired,
-    director: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-    genre: PropTypes.shape({
-      name: PropTypes.string.isRequired,
-    }),
-    description: PropTypes.string,
-    stars: PropTypes.arrayOf(
-      PropTypes.shape({
-        name: PropTypes.string.isRequired,
-      })
-    ),
-    year: PropTypes.string,
-  }).isRequired,
 };
 
 export default MovieView;

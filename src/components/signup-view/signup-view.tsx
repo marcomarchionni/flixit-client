@@ -1,15 +1,17 @@
+import React from 'react';
 import { useState } from 'react';
+import { User } from '../../interfaces/interfaces';
 import { SIGNUP_URL } from '../../utils/api-urls';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
-  const [birthday, setBirthday] = useState('');
+  const [birthday, setBirthday] = useState<Date>();
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = {
+    const data: User = {
       username,
       email,
       birthday,
@@ -27,13 +29,12 @@ const SignupView = () => {
           window.location.reload();
         } else {
           return response.json().then((data) => {
-            console.log(data);
             const message = data.message ? `. ${data.message}.` : '';
             alert(`Signup failed${message}`);
           });
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err: Error) => console.error(err));
   };
 
   return (
@@ -48,7 +49,7 @@ const SignupView = () => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              minLength="3"
+              minLength={3}
             ></input>
           </label>
         </div>
@@ -68,8 +69,8 @@ const SignupView = () => {
             Birthday:
             <input
               type="date"
-              value={birthday}
-              onChange={(e) => setBirthday(e.target.value)}
+              value={birthday?.toDateString()}
+              onChange={(e) => setBirthday(new Date(e.target.value))}
             ></input>
           </label>
         </div>

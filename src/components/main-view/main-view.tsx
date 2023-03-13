@@ -5,39 +5,43 @@ import { findRelatedMovies } from '../../utils/functions';
 import { MOVIES_URL } from '../../utils/api-urls';
 import LoginView from '../login-view/login-view';
 import SignupView from '../signup-view/signup-view';
+import React from 'react';
+import { Movie } from '../../interfaces/interfaces';
 
 const MainView = () => {
-  const storedUser = JSON.parse(localStorage.getItem('user'));
-  const storedToken = JSON.parse(localStorage.getItem('token'));
-  const storedMovie = JSON.parse(localStorage.getItem('selectedMovie'));
-  const [user, setUser] = useState(storedUser ? storedUser : null);
-  const [token, setToken] = useState(storedToken ? storedToken : null);
-  const [selectedMovie, setSelectedMovie] = useState(
-    storedMovie ? storedMovie : null
+  const storedUser = localStorage.getItem('user');
+  const storedToken = localStorage.getItem('token');
+  const storedMovie = localStorage.getItem('selectedMovie');
+  const [user, setUser] = useState<string>(storedUser ? JSON.parse(storedUser) : '');
+  const [token, setToken] = useState<string>(
+    storedToken ? JSON.parse(storedToken) : ''
   );
-  const [movies, setMovies] = useState([]);
+  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(
+    storedMovie ? JSON.parse(storedMovie) : null
+  );
+  const [movies, setMovies] = useState<Movie[]>([]);
 
-  const handleLogin = (dataUser, dataToken) => {
+  const handleLogin = (dataUser: string, dataToken: string) => {
     setUser(dataUser);
     localStorage.setItem('user', JSON.stringify(dataUser));
     setToken(dataToken);
     localStorage.setItem('token', JSON.stringify(dataToken));
   };
   const handleLogout = () => {
-    setUser(null);
-    setToken(null);
+    setUser('');
+    setToken('');
     setSelectedMovie(null);
     localStorage.clear();
   };
 
-  const handleSelectMovie = (movie) => {
+  const handleSelectMovie = (movie: Movie) => {
     setSelectedMovie(movie);
     localStorage.setItem('selectedMovie', JSON.stringify(movie));
   };
 
   const handleDeselectMovie = () => {
     setSelectedMovie(null);
-    localStorage.setItem('selectedMovie', null);
+    localStorage.removeItem('selectedMovie');
   };
 
   useEffect(() => {
@@ -46,10 +50,10 @@ const MainView = () => {
     }
     fetch(MOVIES_URL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => response.json())
-      .then((movieData) => {
+      .then((movieData: Movie[]) => {
         setMovies(movieData);
       })
-      .catch((err) => console.error(err));
+      .catch((err: Error) => console.error(err));
   }, [token]);
 
   if (!user) {
@@ -65,7 +69,7 @@ const MainView = () => {
   }
 
   if (selectedMovie) {
-    const relatedMovies = findRelatedMovies(movies, selectedMovie);
+    const relatedMovies: Movie[] = findRelatedMovies(movies, selectedMovie);
     return (
       <div>
         <button onClick={handleDeselectMovie}>To Movie List</button>

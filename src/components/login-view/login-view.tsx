@@ -1,17 +1,28 @@
-import { useState } from 'react';
+import * as React from 'react';
+import { useState, FormEvent, FC} from 'react';
+import { User } from '../../interfaces/interfaces';
 import { composeLoginUrl } from '../../utils/api-urls';
 
-const LoginView = ({ onLoggedIn }) => {
+interface LoginProps {
+  onLoggedIn: Function
+}
+
+interface LoginResponse {
+  user?: User,
+  token?: string
+}
+
+const LoginView: FC<LoginProps> = ({ onLoggedIn }) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  const handleSubmit = (event) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const loginUrl = composeLoginUrl(username, password);
 
     fetch(loginUrl, { method: 'POST' })
       .then((response) => response.json())
-      .then((data) => {
+      .then((data: LoginResponse) => {
         if (data.user && data.token) {
           onLoggedIn(data.user, data.token);
         } else {
@@ -20,7 +31,7 @@ const LoginView = ({ onLoggedIn }) => {
           setPassword('');
         }
       })
-      .catch((err) => console.error(err));
+      .catch((err: Error) => console.error(err));
   };
   return (
     <div>
@@ -34,7 +45,7 @@ const LoginView = ({ onLoggedIn }) => {
               value={username}
               onChange={(e) => setUsername(e.target.value)}
               required
-              minLength="3"
+              minLength={3}
             />
           </label>
         </div>
@@ -50,7 +61,7 @@ const LoginView = ({ onLoggedIn }) => {
           </label>
         </div>
         <div>
-          <button type="submit" onSubmit={handleSubmit}>
+          <button type="submit">
             Login
           </button>
         </div>
