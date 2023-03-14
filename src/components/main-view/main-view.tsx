@@ -7,6 +7,7 @@ import LoginView from '../login-view/login-view';
 import SignupView from '../signup-view/signup-view';
 import React from 'react';
 import { Movie } from '../../interfaces/interfaces';
+import { Button, Col, Row } from 'react-bootstrap';
 
 const MainView = () => {
   const storedUser = localStorage.getItem('user');
@@ -30,6 +31,7 @@ const MainView = () => {
     setToken(dataToken);
     localStorage.setItem('token', JSON.stringify(dataToken));
   };
+
   const handleLogout = () => {
     setUser('');
     setToken('');
@@ -61,61 +63,69 @@ const MainView = () => {
       .catch((err: Error) => console.error(err));
   }, [token]);
 
-  if (!user) {
-    return (
-      <>
-        <LoginView onLoggedIn={handleLogin} />
-        <br />
-        or
-        <br />
-        <SignupView />
-      </>
-    );
-  }
-
-  if (selectedMovie) {
-    const relatedMovies: Movie[] = findRelatedMovies(movies, selectedMovie);
-    return (
-      <div>
-        <button onClick={handleDeselectMovie}>To Movie List</button>
-        <button onClick={handleLogout}>Logout</button>
-        <br />
-        <h2>Movie View</h2>
-        <MovieView key={selectedMovie._id} movie={selectedMovie} />
-        <br />
-        <h2>Related Movies</h2>
-        {relatedMovies.map((movie) => (
-          <MovieCard
-            key={movie._id}
-            movie={movie}
-            onCardClick={() => handleSelectMovie(movie)}
-          />
-        ))}
-      </div>
-    );
-  }
-
-  if (loadingMovies) {
-    return <div>Loading...</div>;
-  }
-
-  if (movies.length === 0) {
-    return <div>No movie available</div>;
-  }
-
   return (
-    <div>
-      <button onClick={handleLogout}>Logout</button>
-      <br />
-      <h2>Movies</h2>
-      {movies.map((movie) => (
-        <MovieCard
-          key={movie._id}
-          movie={movie}
-          onCardClick={() => handleSelectMovie(movie)}
-        />
-      ))}
-    </div>
+    <>
+      <Row className="mb-2 bg-light">
+        <Col md="auto" className="d-flex align-items-center">
+          <h1>ItFlix</h1>
+        </Col>
+        {user && (
+          <>
+            <Col className="d-flex align-items-center">
+              <Button
+                variant="secondary"
+                className="mx-2"
+                onClick={handleDeselectMovie}
+              >
+                Home
+              </Button>
+            </Col>
+            <Col md="auto" className="d-flex align-items-center">
+              <Button
+                variant="secondary"
+                className="mx-2"
+                onClick={handleLogout}
+              >
+                Logout
+              </Button>
+            </Col>
+          </>
+        )}
+      </Row>
+      <Row>
+        {!user ? (
+          <Col md={8}>
+            <LoginView onLoggedIn={handleLogin} />
+            <br />
+            or
+            <br />
+            <SignupView />
+          </Col>
+        ) : selectedMovie ? (
+          <Col>
+            <MovieView key={selectedMovie._id} movie={selectedMovie} />
+          </Col>
+        ) : loadingMovies ? (
+          <Col>
+            <p>Loading...</p>
+          </Col>
+        ) : movies.length === 0 ? (
+          <Col>
+            <p>No movies available</p>
+          </Col>
+        ) : (
+          <>
+            {movies.map((movie) => (
+              <MovieCard
+                key={movie._id}
+                movie={movie}
+                onCardClick={() => handleSelectMovie(movie)}
+              />
+            ))}
+          </>
+        )}
+      </Row>
+    </>
   );
 };
 
