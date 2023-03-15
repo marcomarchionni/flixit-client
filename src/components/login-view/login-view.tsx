@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { useState, FormEvent, FC } from 'react';
+import { FormEvent, useState } from 'react';
+import { Button, Col, Form, FormControl, FormLabel } from 'react-bootstrap';
 import { User } from '../../interfaces/interfaces';
 import { composeLoginUrl } from '../../utils/api-urls';
 
@@ -34,37 +35,38 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
       .catch((err: Error) => console.error(err));
   };
   return (
-    <div>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>
-            Username:
-            <input
-              type="text"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              minLength={3}
-            />
-          </label>
+    <Col sm={6}>
+      <Form
+        onSubmit={handleSubmit}
+        className="border border-secondary rounded-4 p-4"
+      >
+        <h2 className="text-center">Login</h2>
+        <Form.Group controlId="formUsername" className="my-4">
+          <FormLabel>Username</FormLabel>
+          <FormControl
+            type="text"
+            value={username}
+            onChange={(e) => setUsername(e.target.value)}
+            required
+            minLength={3}
+          ></FormControl>
+        </Form.Group>
+        <Form.Group controlId="formBasicPassword" className="my-4">
+          <FormLabel>Password</FormLabel>
+          <FormControl
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          ></FormControl>
+        </Form.Group>
+        <div className="d-flex justify-content-center pt-2">
+          <Button variant="secondary" type="submit">
+            Login
+          </Button>
         </div>
-        <div>
-          <label>
-            Password:
-            <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-            />
-          </label>
-        </div>
-        <div>
-          <button type="submit">Login</button>
-        </div>
-      </form>
-    </div>
+      </Form>
+    </Col>
   );
 };
 

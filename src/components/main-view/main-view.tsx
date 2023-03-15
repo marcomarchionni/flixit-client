@@ -1,13 +1,12 @@
-import { useState, useEffect } from 'react';
-import MovieCard from '../movie-card/movie-card';
-import MovieView from '../movie-view/movie-view';
-import { findRelatedMovies } from '../../utils/utils';
-import { MOVIES_URL } from '../../utils/api-urls';
-import LoginView from '../login-view/login-view';
-import SignupView from '../signup-view/signup-view';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { Col, Row } from 'react-bootstrap';
 import { Movie } from '../../interfaces/interfaces';
-import { Button, Col, Row } from 'react-bootstrap';
+import { MOVIES_URL } from '../../utils/api-urls';
+import Header from '../header/header';
+import LoginView from '../login-view/login-view';
+import MovieGrid from '../movie-grid/movie-grid';
+import MovieInfo from '../movie-info/movie-info';
+import SignupView from '../signup-view/signup-view';
 
 const MainView = () => {
   const storedUser = localStorage.getItem('user');
@@ -39,12 +38,12 @@ const MainView = () => {
     localStorage.clear();
   };
 
-  const handleSelectMovie = (movie: Movie) => {
+  const showMovieInfo = (movie: Movie) => {
     setSelectedMovie(movie);
     localStorage.setItem('selectedMovie', JSON.stringify(movie));
   };
 
-  const handleDeselectMovie = () => {
+  const showHome = () => {
     setSelectedMovie(null);
     localStorage.removeItem('selectedMovie');
   };
@@ -65,65 +64,32 @@ const MainView = () => {
 
   return (
     <>
-      <Row className="mb-2 bg-light">
-        <Col md="auto" className="d-flex align-items-center">
-          <h1>ItFlix</h1>
+      <Header
+        isLogged={!!user}
+        handleShowHome={showHome}
+        handleLogout={handleLogout}
+      />
+      <Row className="justify-content-md-center mt-4">
+        <Col xl={9}>
+          {!user ? (
+            <Row>
+              <LoginView onLoggedIn={handleLogin} />
+              <SignupView />
+            </Row>
+          ) : selectedMovie ? (
+            <MovieInfo
+              movie={selectedMovie}
+              movies={movies}
+              showMovieInfo={showMovieInfo}
+            />
+          ) : (
+            <MovieGrid
+              movies={movies}
+              loadingMovies={loadingMovies}
+              showMovieInfo={showMovieInfo}
+            />
+          )}
         </Col>
-        {user && (
-          <>
-            <Col className="d-flex align-items-center">
-              <Button
-                variant="secondary"
-                className="mx-2"
-                onClick={handleDeselectMovie}
-              >
-                Home
-              </Button>
-            </Col>
-            <Col md="auto" className="d-flex align-items-center">
-              <Button
-                variant="secondary"
-                className="mx-2"
-                onClick={handleLogout}
-              >
-                Logout
-              </Button>
-            </Col>
-          </>
-        )}
-      </Row>
-      <Row>
-        {!user ? (
-          <Col md={8}>
-            <LoginView onLoggedIn={handleLogin} />
-            <br />
-            or
-            <br />
-            <SignupView />
-          </Col>
-        ) : selectedMovie ? (
-          <Col>
-            <MovieView key={selectedMovie._id} movie={selectedMovie} />
-          </Col>
-        ) : loadingMovies ? (
-          <Col>
-            <p>Loading...</p>
-          </Col>
-        ) : movies.length === 0 ? (
-          <Col>
-            <p>No movies available</p>
-          </Col>
-        ) : (
-          <>
-            {movies.map((movie) => (
-              <MovieCard
-                key={movie._id}
-                movie={movie}
-                onCardClick={() => handleSelectMovie(movie)}
-              />
-            ))}
-          </>
-        )}
       </Row>
     </>
   );
