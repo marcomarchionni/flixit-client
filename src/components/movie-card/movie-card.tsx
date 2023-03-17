@@ -1,7 +1,7 @@
 import React from 'react';
-import { Button, Card } from 'react-bootstrap';
-import { InfoLg, Star } from 'react-bootstrap-icons';
+import { Card } from 'react-bootstrap';
 import { Movie } from '../../interfaces/interfaces';
+import { InfoButton, StarButton } from '../buttons.tsx/buttons';
 
 interface MovieCardProps {
   movie: Movie;
@@ -13,21 +13,12 @@ const MovieCard = ({ movie, onInfoClick }: MovieCardProps) => {
     <Card className="h-100 border border-secondary rounded-4">
       <Card.Img variant="top" src={movie.imageUrl} />
       <Card.Body className="d-flex flex-column">
-        <div className="d-flex flex-grow-1 d-flex align-items-center text-center">
+        <div className="flex-grow-1 d-flex align-items-center text-center">
           <Card.Title className="flex-grow-1">{movie.title}</Card.Title>
         </div>
-        <div className="d-flex  justify-content-center m-2">
-          <Button variant="outline-secondary" size="sm" className="mx-1">
-            <Star className="bi" />
-          </Button>
-          <Button
-            onClick={onInfoClick}
-            variant="outline-secondary"
-            size="sm"
-            className="mx-1"
-          >
-            <InfoLg className="bi" />
-          </Button>
+        <div className="d-flex justify-content-center m-2">
+          <StarButton />
+          <InfoButton onInfoClick={onInfoClick} />
         </div>
       </Card.Body>
     </Card>

@@ -1,8 +1,9 @@
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
-import { Button, Col, Form, FormControl, FormLabel } from 'react-bootstrap';
+import { Button, Col, Form } from 'react-bootstrap';
 import { User } from '../../interfaces/interfaces';
 import { composeLoginUrl } from '../../utils/api-urls';
+import { PasswordInput, UsernameInput } from '../form-elements/forms-elements';
 
 interface LoginProps {
   onLoggedIn: Function;
@@ -41,25 +42,14 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
         className="border border-secondary rounded-4 p-4"
       >
         <h2 className="text-center">Login</h2>
-        <Form.Group controlId="formUsername" className="my-4">
-          <FormLabel>Username</FormLabel>
-          <FormControl
-            type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            required
-            minLength={3}
-          ></FormControl>
-        </Form.Group>
-        <Form.Group controlId="formBasicPassword" className="my-4">
-          <FormLabel>Password</FormLabel>
-          <FormControl
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          ></FormControl>
-        </Form.Group>
+        <UsernameInput
+          value={username}
+          handleValueChange={(e) => setUsername(e.target.value)}
+        />
+        <PasswordInput
+          value={password}
+          handleValueChange={(e) => setPassword(e.target.value)}
+        />
         <div className="d-flex justify-content-center pt-2">
           <Button variant="secondary" type="submit">
             Login

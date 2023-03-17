@@ -78,9 +78,12 @@ stylelint.config.js
 # prettier config
 # prettier.config.js
 
-#dist folder
+# dist folder
 dist/
 
 #parcel
 .cache
 .parcel-cache
+
+# package-lock
+package-lock.json
