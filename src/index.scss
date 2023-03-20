@@ -3,8 +3,18 @@ body {
   height: 100%;
 }
 
-//Headers
-// $headings-font-family: 'Oswald';
+// Font, headers
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
+
+$headings-font-family: 'Oswald';
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase !important;
+}
 
 // Card;
 $card-bg: var(--bs-light);
@@ -44,15 +54,6 @@ $modal-content-border-radius: 1rem;
 
 .fi-card-title-font-size {
   font-size: 1.5rem !important;
-}
-
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  text-transform: uppercase !important;
 }
 
 @import '~bootstrap/scss/bootstrap.scss';

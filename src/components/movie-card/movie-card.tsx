@@ -5,9 +5,12 @@ import { InfoButton, StarButton } from '../basic-components/buttons';
 
 interface MovieCardProps {
   movie: Movie;
+  isFavourite: boolean;
+  toggleFavourite: (id: string) => void;
 }
 
-const MovieCard = ({ movie }: MovieCardProps) => {
+const MovieCard = ({ movie, isFavourite, toggleFavourite }: MovieCardProps) => {
+  console.log(isFavourite);
   return (
     <Card className="h-100 border border-secondary rounded-4">
       <Card.Img variant="top" src={movie.imageUrl} />
@@ -18,7 +21,13 @@ const MovieCard = ({ movie }: MovieCardProps) => {
           </Card.Title>
         </div>
         <div className="d-flex justify-content-center m-2">
-          <StarButton />
+          <StarButton
+            toggleFavourite={() => {
+              console.log('Toggle Fav:' + movie._id);
+              toggleFavourite(movie._id);
+            }}
+            isFavourite={isFavourite}
+          />
           <InfoButton goToLink={`/movies/${movie._id}`} />
         </div>
       </Card.Body>

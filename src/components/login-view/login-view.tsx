@@ -3,7 +3,7 @@ import { FormEvent, useState } from 'react';
 import { Card, Col, Form, Row } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { User } from '../../interfaces/interfaces';
-import { composeLoginUrl } from '../../utils/api-urls';
+import { buildLoginUrl } from '../../utils/api-urls';
 import { InvalidLoginAlert } from '../basic-components/alerts';
 import { SubmitButton } from '../basic-components/buttons';
 import { PasswordInput, UsernameInput } from '../basic-components/forms';
@@ -24,7 +24,7 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const loginUrl = composeLoginUrl(username, password);
+    const loginUrl = buildLoginUrl(username, password);
 
     fetch(loginUrl, { method: 'POST' })
       .then((response) => response.json())

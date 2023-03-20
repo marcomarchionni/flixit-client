@@ -42,7 +42,7 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
     if (!token) {
       return;
     }
-    const data: User = {
+    const data = {
       username,
       email,
       birthday,

@@ -1,14 +1,21 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Movie } from '../../interfaces/interfaces';
+import { Movie, User } from '../../interfaces/interfaces';
 import MovieCard from '../movie-card/movie-card';
 
 interface RelatedMoviesProp {
   movie: Movie;
+  user: User;
   movies: Movie[];
+  toggleFavourite: (id: string) => void;
 }
 
-const RelatedMovies = ({ movie, movies }: RelatedMoviesProp) => {
+const RelatedMovies = ({
+  movie,
+  user,
+  movies,
+  toggleFavourite: addToFavourites,
+}: RelatedMoviesProp) => {
   const differentTitle = (movieOne: Movie, movieTwo: Movie): boolean => {
     return movieOne.title !== movieTwo.title;
   };
@@ -31,11 +38,15 @@ const RelatedMovies = ({ movie, movies }: RelatedMoviesProp) => {
 
   return (
     <>
-      <h4 className="my-4 text-center">Related Movies</h4>
+      <h3 className="my-4 text-center text-light">Related Movies</h3>
       <Row className="bg-gray">
         {relatedMovies.map((movie) => (
           <Col key={movie._id} className="mb-4">
-            <MovieCard movie={movie} />
+            <MovieCard
+              movie={movie}
+              isFavourite={user.favouriteMovies.includes(movie._id)}
+              toggleFavourite={addToFavourites}
+            />
           </Col>
         ))}
       </Row>

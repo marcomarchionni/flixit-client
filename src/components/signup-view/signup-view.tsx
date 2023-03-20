@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Card, Col, Form, Row } from 'react-bootstrap';
-import { ErrorResponse, User } from '../../interfaces/interfaces';
+import { ErrorResponse } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/api-urls';
 import { SignupSuccessAlert } from '../basic-components/alerts';
 import { SubmitButton } from '../basic-components/buttons';
@@ -27,7 +27,7 @@ const SignupView = () => {
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data: User = {
+    const data = {
       username,
       email,
       birthday,

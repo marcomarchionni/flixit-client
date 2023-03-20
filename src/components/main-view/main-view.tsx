@@ -2,11 +2,12 @@ import React, { useEffect, useState } from 'react';
 import { Col, Container, Row } from 'react-bootstrap';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Movie, User } from '../../interfaces/interfaces';
-import { MOVIES_URL } from '../../utils/api-urls';
+import { buildFavouriteUrl, MOVIES_URL } from '../../utils/api-urls';
 import Header from '../header/header';
 import LoginView from '../login-view/login-view';
 import MovieGrid from '../movie-grid/movie-grid';
 import MovieInfo from '../movie-info/movie-info';
+import FavouritesView from '../profile/favourites-view';
 import ProfileView from '../profile/profile-view';
 import SignupView from '../signup-view/signup-view';
 
@@ -33,6 +34,28 @@ const MainView = () => {
     setUser(null);
     setToken('');
     localStorage.clear();
+  };
+
+  const toggleFavourite = (movieId: string) => {
+    if (!user || !token) {
+      return;
+    }
+    const favoriteUrl = buildFavouriteUrl(user.username, movieId);
+    const movieIsFavourite = user.favouriteMovies.includes(movieId);
+
+    const httpMethod = movieIsFavourite ? 'DELETE' : 'PUT';
+
+    fetch(favoriteUrl, {
+      method: httpMethod,
+      headers: { Authorization: `Bearer ${token}` },
+    })
+      .then((response) => response.json())
+      .then((updatedUser: User) => {
+        console.log(updatedUser);
+        setUser(updatedUser);
+        localStorage.setItem('user', JSON.stringify(updatedUser));
+      })
+      .catch((err: Error) => console.error(err));
   };
 
   useEffect(() => {
@@ -82,12 +105,31 @@ const MainView = () => {
                 }
               />
               <Route
+                path={'/users/:username/favourites'}
+                element={
+                  user ? (
+                    <FavouritesView
+                      user={user}
+                      movies={movies}
+                      toggleFavourite={toggleFavourite}
+                    />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
+              <Route
                 path="/movies"
                 element={
                   !user ? (
                     <Navigate to="/login" />
                   ) : (
-                    <MovieGrid movies={movies} loadingMovies={loadingMovies} />
+                    <MovieGrid
+                      user={user}
+                      movies={movies}
+                      loadingMovies={loadingMovies}
+                      toggleFavourite={toggleFavourite}
+                    />
                   )
                 }
               />
@@ -97,7 +139,11 @@ const MainView = () => {
                   !user ? (
                     <Navigate to="/login" />
                   ) : (
-                    <MovieInfo movies={movies} />
+                    <MovieInfo
+                      user={user}
+                      movies={movies}
+                      toggleFavourite={toggleFavourite}
+                    />
                   )
                 }
               />

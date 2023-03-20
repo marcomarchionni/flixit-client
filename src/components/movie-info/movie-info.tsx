@@ -3,22 +3,27 @@ import { Col, Row, Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
-import { Movie } from '../../interfaces/interfaces';
+import { Movie, User } from '../../interfaces/interfaces';
 import { StarButton } from '../basic-components/buttons';
 import RelatedMovies from '../related-movies/related-movies';
 
 interface MovieViewProps {
+  user: User;
   movies: Movie[];
+  toggleFavourite: (id: string) => void;
 }
 
 type MovieInfoParams = {
   movieId: string;
 };
 
-const MovieInfo = ({ movies }: MovieViewProps) => {
+const MovieInfo = ({ user, movies, toggleFavourite }: MovieViewProps) => {
   const { movieId } = useParams<MovieInfoParams>();
   const movie = movies.find((m) => m._id === movieId);
-  if (!movie) return <Navigate to="/" />;
+  if (!movieId || !movie) {
+    return <Navigate to="/" />;
+  }
+  const isFavourite = user.favouriteMovies.includes(movieId);
   const stars = movie.stars.map((star) => star.name).join(', ');
   return (
     <Row className="g-2">
@@ -53,7 +58,10 @@ const MovieInfo = ({ movies }: MovieViewProps) => {
             </div>
             <div className="flex-grow-1">{movie.description}</div>
             <div className="d-flex justify-content-center">
-              <StarButton />
+              <StarButton
+                toggleFavourite={() => toggleFavourite(movie._id)}
+                isFavourite={isFavourite}
+              />
             </div>
           </Col>
         </Row>
@@ -61,7 +69,12 @@ const MovieInfo = ({ movies }: MovieViewProps) => {
       <Col lg={3} sm={4}>
         <Row className="px-2">
           <Col>
-            <RelatedMovies movie={movie} movies={movies} />
+            <RelatedMovies
+              movie={movie}
+              user={user}
+              movies={movies}
+              toggleFavourite={toggleFavourite}
+            />
           </Col>
         </Row>
       </Col>

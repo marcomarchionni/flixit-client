@@ -1,35 +1,43 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Movie } from '../../interfaces/interfaces';
-import Loading from '../loading/loading';
+import { Movie, User } from '../../interfaces/interfaces';
 import MovieCard from '../movie-card/movie-card';
+import Loading from './loading';
+import NoMovies from './no-movies';
 
 interface MovieGridProps {
+  user: User;
   movies: Movie[];
   loadingMovies: boolean;
+  toggleFavourite: (id: string) => void;
 }
 
-const MovieGrid = ({ movies, loadingMovies }: MovieGridProps) => {
-  console.log({ movies, loadingMovies });
+const MovieGrid = ({
+  user,
+  movies,
+  loadingMovies,
+  toggleFavourite,
+}: MovieGridProps) => {
+  if (loadingMovies) {
+    return <Loading />;
+  }
 
   const noMovies = movies.length === 0;
+  if (noMovies) {
+    return <NoMovies />;
+  }
+
   return (
-    <Row>
-      {loadingMovies ? (
-        <Loading />
-      ) : noMovies ? (
-        <Col md={8}>
-          <p>Sorry, no movies to show!</p>
+    <Row className="my-4">
+      {movies.map((movie) => (
+        <Col key={movie._id} xl={3} sm={4} className="mb-4">
+          <MovieCard
+            movie={movie}
+            isFavourite={user.favouriteMovies.includes(movie._id)}
+            toggleFavourite={toggleFavourite}
+          />
         </Col>
-      ) : (
-        <>
-          {movies.map((movie) => (
-            <Col key={movie._id} xl={3} sm={4} className="mb-4">
-              <MovieCard movie={movie} />
-            </Col>
-          ))}
-        </>
-      )}
+      ))}
     </Row>
   );
 };

@@ -1,12 +1,25 @@
 import React from 'react';
 import { Button } from 'react-bootstrap';
-import { InfoLg, Star } from 'react-bootstrap-icons';
+import { InfoLg, Star, StarFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
-export const StarButton = () => {
+interface StarButtonProps {
+  toggleFavourite: () => void;
+  isFavourite: boolean;
+}
+
+export const StarButton = ({
+  toggleFavourite,
+  isFavourite,
+}: StarButtonProps) => {
   return (
-    <Button variant="outline-secondary" size="sm" className="mx-1">
-      <Star className="bi" />
+    <Button
+      variant="outline-secondary"
+      size="sm"
+      onClick={toggleFavourite}
+      className="mx-1"
+    >
+      {isFavourite ? <StarFill className="bi" /> : <Star className="bi" />}
     </Button>
   );
 };
