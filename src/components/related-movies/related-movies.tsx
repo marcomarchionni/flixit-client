@@ -6,10 +6,9 @@ import MovieCard from '../movie-card/movie-card';
 interface RelatedMoviesProp {
   movie: Movie;
   movies: Movie[];
-  showMovieInfo: Function;
 }
 
-const RelatedMovies = ({ movie, movies, showMovieInfo }: RelatedMoviesProp) => {
+const RelatedMovies = ({ movie, movies }: RelatedMoviesProp) => {
   const differentTitle = (movieOne: Movie, movieTwo: Movie): boolean => {
     return movieOne.title !== movieTwo.title;
   };
@@ -36,7 +35,7 @@ const RelatedMovies = ({ movie, movies, showMovieInfo }: RelatedMoviesProp) => {
       <Row className="bg-gray">
         {relatedMovies.map((movie) => (
           <Col key={movie._id} className="mb-4">
-            <MovieCard movie={movie} onInfoClick={() => showMovieInfo(movie)} />
+            <MovieCard movie={movie} />
           </Col>
         ))}
       </Row>

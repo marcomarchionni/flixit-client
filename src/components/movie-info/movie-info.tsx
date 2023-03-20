@@ -1,17 +1,24 @@
 import React from 'react';
-import { Button, Col, Row, Table } from 'react-bootstrap';
-import { Star } from 'react-bootstrap-icons';
+import { Col, Row, Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
+import { useParams } from 'react-router';
+import { Navigate } from 'react-router-dom';
 import { Movie } from '../../interfaces/interfaces';
+import { StarButton } from '../basic-components/buttons';
 import RelatedMovies from '../related-movies/related-movies';
 
 interface MovieViewProps {
-  movie: Movie;
   movies: Movie[];
-  showMovieInfo: Function;
 }
 
-const MovieInfo = ({ movie, movies, showMovieInfo }: MovieViewProps) => {
+type MovieInfoParams = {
+  movieId: string;
+};
+
+const MovieInfo = ({ movies }: MovieViewProps) => {
+  const { movieId } = useParams<MovieInfoParams>();
+  const movie = movies.find((m) => m._id === movieId);
+  if (!movie) return <Navigate to="/" />;
   const stars = movie.stars.map((star) => star.name).join(', ');
   return (
     <Row className="g-2">
@@ -46,9 +53,7 @@ const MovieInfo = ({ movie, movies, showMovieInfo }: MovieViewProps) => {
             </div>
             <div className="flex-grow-1">{movie.description}</div>
             <div className="d-flex justify-content-center">
-              <Button variant="outline-secondary" size="sm" className="mx-1">
-                <Star className="bi" />
-              </Button>
+              <StarButton />
             </div>
           </Col>
         </Row>
@@ -56,11 +61,7 @@ const MovieInfo = ({ movie, movies, showMovieInfo }: MovieViewProps) => {
       <Col lg={3} sm={4}>
         <Row className="px-2">
           <Col>
-            <RelatedMovies
-              movie={movie}
-              movies={movies}
-              showMovieInfo={showMovieInfo}
-            />
+            <RelatedMovies movie={movie} movies={movies} />
           </Col>
         </Row>
       </Col>

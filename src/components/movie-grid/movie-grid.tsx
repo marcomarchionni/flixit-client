@@ -7,14 +7,11 @@ import MovieCard from '../movie-card/movie-card';
 interface MovieGridProps {
   movies: Movie[];
   loadingMovies: boolean;
-  showMovieInfo: Function;
 }
 
-const MovieGrid = ({
-  movies,
-  loadingMovies,
-  showMovieInfo,
-}: MovieGridProps) => {
+const MovieGrid = ({ movies, loadingMovies }: MovieGridProps) => {
+  console.log({ movies, loadingMovies });
+
   const noMovies = movies.length === 0;
   return (
     <Row>
@@ -28,10 +25,7 @@ const MovieGrid = ({
         <>
           {movies.map((movie) => (
             <Col key={movie._id} xl={3} sm={4} className="mb-4">
-              <MovieCard
-                movie={movie}
-                onInfoClick={() => showMovieInfo(movie)}
-              />
+              <MovieCard movie={movie} />
             </Col>
           ))}
         </>

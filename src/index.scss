@@ -1,10 +1,58 @@
-$body-bg: #f8f9fa;
-$card-inner-border-radius: 1rem;
-.bi {
-    display: inline-block;
-    vertical-align: -0.125em;
-    margin: 0 0.5em;
+html,
+body {
+  height: 100%;
 }
 
+//Headers
+// $headings-font-family: 'Oswald';
+
+// Card;
+$card-bg: var(--bs-light);
+$card-inner-border-radius: 1rem;
+$card-border-radius: 1rem;
+
+.fi-bigger-card-title {
+  font-size: 2rem !important;
+  margin-bottom: 1rem !important;
+}
+
+.bi {
+  display: inline-block;
+  vertical-align: -0.125em;
+  margin: 0 0.5em;
+}
+
+// Modal
+$modal-header-border-width: 0px;
+$modal-footer-border-width: 0px;
+$modal-content-border-radius: 1rem;
+.btn-close {
+  margin-bottom: 0.25rem !important;
+}
+
+// .form-control {
+//     background-color: var(--bs-light) !important;
+// }
+
+// .form-control:focus {
+//     background-color: var(--bs-light) !important;
+// }
+
+.fi-padding-top {
+  padding-top: 4rem;
+}
+
+.fi-card-title-font-size {
+  font-size: 1.5rem !important;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-transform: uppercase !important;
+}
 
 @import '~bootstrap/scss/bootstrap.scss';

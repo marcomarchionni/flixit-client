@@ -1,30 +1,28 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Row } from 'react-bootstrap';
-import { Movie } from '../../interfaces/interfaces';
+import { Col, Container, Row } from 'react-bootstrap';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
+import { Movie, User } from '../../interfaces/interfaces';
 import { MOVIES_URL } from '../../utils/api-urls';
 import Header from '../header/header';
 import LoginView from '../login-view/login-view';
 import MovieGrid from '../movie-grid/movie-grid';
 import MovieInfo from '../movie-info/movie-info';
+import ProfileView from '../profile/profile-view';
 import SignupView from '../signup-view/signup-view';
 
 const MainView = () => {
   const storedUser = localStorage.getItem('user');
   const storedToken = localStorage.getItem('token');
-  const storedMovie = localStorage.getItem('selectedMovie');
-  const [user, setUser] = useState<string>(
-    storedUser ? JSON.parse(storedUser) : ''
+  const [user, setUser] = useState<User | null>(
+    storedUser ? JSON.parse(storedUser) : null
   );
   const [token, setToken] = useState<string>(
     storedToken ? JSON.parse(storedToken) : ''
   );
-  const [selectedMovie, setSelectedMovie] = useState<Movie | null>(
-    storedMovie ? JSON.parse(storedMovie) : null
-  );
   const [movies, setMovies] = useState<Movie[]>([]);
   const [loadingMovies, setLoadingMovies] = useState(false);
 
-  const handleLogin = (dataUser: string, dataToken: string) => {
+  const handleLogin = (dataUser: User, dataToken: string) => {
     setUser(dataUser);
     localStorage.setItem('user', JSON.stringify(dataUser));
     setToken(dataToken);
@@ -32,20 +30,9 @@ const MainView = () => {
   };
 
   const handleLogout = () => {
-    setUser('');
+    setUser(null);
     setToken('');
-    setSelectedMovie(null);
     localStorage.clear();
-  };
-
-  const showMovieInfo = (movie: Movie) => {
-    setSelectedMovie(movie);
-    localStorage.setItem('selectedMovie', JSON.stringify(movie));
-  };
-
-  const showHome = () => {
-    setSelectedMovie(null);
-    localStorage.removeItem('selectedMovie');
   };
 
   useEffect(() => {
@@ -63,35 +50,62 @@ const MainView = () => {
   }, [token]);
 
   return (
-    <>
-      <Header
-        isLogged={!!user}
-        handleShowHome={showHome}
-        handleLogout={handleLogout}
-      />
-      <Row className="justify-content-md-center mt-4">
-        <Col xl={9}>
-          {!user ? (
-            <Row>
-              <LoginView onLoggedIn={handleLogin} />
-              <SignupView />
-            </Row>
-          ) : selectedMovie ? (
-            <MovieInfo
-              movie={selectedMovie}
-              movies={movies}
-              showMovieInfo={showMovieInfo}
-            />
-          ) : (
-            <MovieGrid
-              movies={movies}
-              loadingMovies={loadingMovies}
-              showMovieInfo={showMovieInfo}
-            />
-          )}
-        </Col>
-      </Row>
-    </>
+    <BrowserRouter>
+      <Container fluid className="bg-dark min-vh-100">
+        <Header user={user} handleLogout={handleLogout} />
+        <Row className="justify-content-md-center mt-4 fi-padding-top">
+          <Col xl={9}>
+            <Routes>
+              <Route path="/" element={<Navigate to="/movies" />}></Route>
+              <Route
+                path="/signup"
+                element={user ? <Navigate to="/movies" /> : <SignupView />}
+              />
+              <Route
+                path="/login"
+                element={
+                  user ? (
+                    <Navigate to="/movies" />
+                  ) : (
+                    <LoginView onLoggedIn={handleLogin} />
+                  )
+                }
+              />
+              <Route
+                path={'/users/:username/profile'}
+                element={
+                  user ? (
+                    <ProfileView user={user} handleLogout={handleLogout} />
+                  ) : (
+                    <Navigate to="/login" />
+                  )
+                }
+              />
+              <Route
+                path="/movies"
+                element={
+                  !user ? (
+                    <Navigate to="/login" />
+                  ) : (
+                    <MovieGrid movies={movies} loadingMovies={loadingMovies} />
+                  )
+                }
+              />
+              <Route
+                path={'/movies/:movieId'}
+                element={
+                  !user ? (
+                    <Navigate to="/login" />
+                  ) : (
+                    <MovieInfo movies={movies} />
+                  )
+                }
+              />
+            </Routes>
+          </Col>
+        </Row>
+      </Container>
+    </BrowserRouter>
   );
 };
 

@@ -4,11 +4,13 @@ import { Form, FormControl, FormLabel } from 'react-bootstrap';
 interface FormInputProps {
   value: string;
   handleValueChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  disabled?: boolean;
 }
 
 export const UsernameInput = ({
   value: username,
   handleValueChange: handleUsernameChange,
+  disabled,
 }: FormInputProps) => {
   return (
     <GenericInput
@@ -18,6 +20,7 @@ export const UsernameInput = ({
       handleValueChange={handleUsernameChange}
       required
       minLength={3}
+      disabled={disabled}
     />
   );
 };
@@ -25,6 +28,7 @@ export const UsernameInput = ({
 export const PasswordInput = ({
   value: password,
   handleValueChange: handlePasswordChange,
+  disabled,
 }: FormInputProps) => {
   return (
     <GenericInput
@@ -33,6 +37,7 @@ export const PasswordInput = ({
       label="Password"
       handleValueChange={handlePasswordChange}
       required
+      disabled={disabled}
     />
   );
 };
@@ -40,6 +45,7 @@ export const PasswordInput = ({
 export const EmailInput = ({
   value: email,
   handleValueChange: handleEmailChange,
+  disabled,
 }: FormInputProps) => {
   return (
     <GenericInput
@@ -48,6 +54,7 @@ export const EmailInput = ({
       label="Email"
       handleValueChange={handleEmailChange}
       required
+      disabled={disabled}
     />
   );
 };
@@ -55,6 +62,7 @@ export const EmailInput = ({
 export const BirthdayInput = ({
   value: date,
   handleValueChange: handleDateChange,
+  disabled,
 }: FormInputProps) => {
   return (
     <GenericInput
@@ -64,6 +72,7 @@ export const BirthdayInput = ({
       handleValueChange={handleDateChange}
       required
       max={new Date().toISOString().substring(0, 10)}
+      disabled={disabled}
     />
   );
 };
@@ -76,6 +85,7 @@ interface GenericInputProps {
   required?: boolean;
   minLength?: number;
   max?: string;
+  disabled?: boolean;
 }
 
 const GenericInput = ({
@@ -86,9 +96,10 @@ const GenericInput = ({
   required,
   minLength,
   max,
+  disabled,
 }: GenericInputProps) => {
   return (
-    <Form.Group controlId={`form${label}`} className="my-4">
+    <Form.Group controlId={`form${label}`} className="mb-4">
       <FormLabel>{label}</FormLabel>
       <FormControl
         type={type}
@@ -97,6 +108,7 @@ const GenericInput = ({
         required={required}
         minLength={minLength}
         max={max}
+        disabled={disabled}
       ></FormControl>
     </Form.Group>
   );

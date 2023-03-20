@@ -1,9 +1,12 @@
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
-import { Button, Col, Form } from 'react-bootstrap';
+import { Card, Col, Form, Row } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 import { User } from '../../interfaces/interfaces';
 import { composeLoginUrl } from '../../utils/api-urls';
-import { PasswordInput, UsernameInput } from '../form-elements/forms-elements';
+import { InvalidLoginAlert } from '../basic-components/alerts';
+import { SubmitButton } from '../basic-components/buttons';
+import { PasswordInput, UsernameInput } from '../basic-components/forms';
 
 interface LoginProps {
   onLoggedIn: Function;
@@ -17,6 +20,7 @@ interface LoginResponse {
 const LoginView = ({ onLoggedIn }: LoginProps) => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [showInvalidLoginAlert, setShowInvalidLoginAlert] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,35 +32,46 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
         if (data.user && data.token) {
           onLoggedIn(data.user, data.token);
         } else {
-          alert('Invalid credentials');
           setUsername('');
           setPassword('');
+          setShowInvalidLoginAlert(true);
         }
       })
       .catch((err: Error) => console.error(err));
   };
   return (
-    <Col sm={6}>
-      <Form
-        onSubmit={handleSubmit}
-        className="border border-secondary rounded-4 p-4"
-      >
-        <h2 className="text-center">Login</h2>
-        <UsernameInput
-          value={username}
-          handleValueChange={(e) => setUsername(e.target.value)}
-        />
-        <PasswordInput
-          value={password}
-          handleValueChange={(e) => setPassword(e.target.value)}
-        />
-        <div className="d-flex justify-content-center pt-2">
-          <Button variant="secondary" type="submit">
+    <Row className="my-4">
+      <Col sm={6} className="mx-auto">
+        <Card className="p-4">
+          <Card.Title className="text-center fi-bigger-card-title">
             Login
-          </Button>
-        </div>
-      </Form>
-    </Col>
+          </Card.Title>
+          {showInvalidLoginAlert && (
+            <InvalidLoginAlert
+              handleClose={() => setShowInvalidLoginAlert(false)}
+            />
+          )}
+          <Form onSubmit={handleSubmit}>
+            <UsernameInput
+              value={username}
+              handleValueChange={(e) => setUsername(e.target.value)}
+            />
+            <PasswordInput
+              value={password}
+              handleValueChange={(e) => setPassword(e.target.value)}
+            />
+            <div className="d-flex justify-content-center">
+              <SubmitButton label="Login" />
+            </div>
+            <div className="d-flex justify-content-center my-2">
+              <Link to="/signup">
+                Not registered yet? Create a new account!
+              </Link>
+            </div>
+          </Form>
+        </Card>
+      </Col>
+    </Row>
   );
 };
 
