@@ -1,16 +1,15 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { Movie } from '../../interfaces/interfaces';
+import { Movie, User } from '../../interfaces/interfaces';
 import { InfoButton, StarButton } from '../basic-components/buttons';
 
 interface MovieCardProps {
+  user: User;
   movie: Movie;
-  isFavourite: boolean;
   toggleFavourite: (id: string) => void;
 }
 
-const MovieCard = ({ movie, isFavourite, toggleFavourite }: MovieCardProps) => {
-  console.log(isFavourite);
+const MovieCard = ({ user, movie, toggleFavourite }: MovieCardProps) => {
   return (
     <Card className="h-100 border border-secondary rounded-4">
       <Card.Img variant="top" src={movie.imageUrl} />
@@ -22,11 +21,10 @@ const MovieCard = ({ movie, isFavourite, toggleFavourite }: MovieCardProps) => {
         </div>
         <div className="d-flex justify-content-center m-2">
           <StarButton
-            toggleFavourite={() => {
-              console.log('Toggle Fav:' + movie._id);
+            toggleFavouriteCallback={() => {
               toggleFavourite(movie._id);
             }}
-            isFavourite={isFavourite}
+            isFavourite={user.favouriteMovies.includes(movie._id)}
           />
           <InfoButton goToLink={`/movies/${movie._id}`} />
         </div>

@@ -1,25 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button } from 'react-bootstrap';
 import { InfoLg, Star, StarFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
 interface StarButtonProps {
-  toggleFavourite: () => void;
+  toggleFavouriteCallback: () => void;
   isFavourite: boolean;
 }
 
 export const StarButton = ({
-  toggleFavourite,
+  toggleFavouriteCallback,
   isFavourite,
 }: StarButtonProps) => {
+  const [favourite, setFavourite] = useState(isFavourite);
+  const handleClick = () => {
+    setFavourite(!favourite);
+    toggleFavouriteCallback();
+  };
   return (
     <Button
       variant="outline-secondary"
       size="sm"
-      onClick={toggleFavourite}
+      onClick={handleClick}
       className="mx-1"
     >
-      {isFavourite ? <StarFill className="bi" /> : <Star className="bi" />}
+      {favourite ? <StarFill className="bi" /> : <Star className="bi" />}
     </Button>
   );
 };

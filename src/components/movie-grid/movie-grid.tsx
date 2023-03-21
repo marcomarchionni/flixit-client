@@ -32,8 +32,8 @@ const MovieGrid = ({
       {movies.map((movie) => (
         <Col key={movie._id} xl={3} sm={4} className="mb-4">
           <MovieCard
+            user={user}
             movie={movie}
-            isFavourite={user.favouriteMovies.includes(movie._id)}
             toggleFavourite={toggleFavourite}
           />
         </Col>

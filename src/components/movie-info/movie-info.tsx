@@ -10,7 +10,7 @@ import RelatedMovies from '../related-movies/related-movies';
 interface MovieViewProps {
   user: User;
   movies: Movie[];
-  toggleFavourite: (id: string) => void;
+  toggleFavourite: (movieId: string) => void;
 }
 
 type MovieInfoParams = {
@@ -23,7 +23,6 @@ const MovieInfo = ({ user, movies, toggleFavourite }: MovieViewProps) => {
   if (!movieId || !movie) {
     return <Navigate to="/" />;
   }
-  const isFavourite = user.favouriteMovies.includes(movieId);
   const stars = movie.stars.map((star) => star.name).join(', ');
   return (
     <Row className="g-2">
@@ -59,8 +58,8 @@ const MovieInfo = ({ user, movies, toggleFavourite }: MovieViewProps) => {
             <div className="flex-grow-1">{movie.description}</div>
             <div className="d-flex justify-content-center">
               <StarButton
-                toggleFavourite={() => toggleFavourite(movie._id)}
-                isFavourite={isFavourite}
+                toggleFavouriteCallback={() => toggleFavourite(movie._id)}
+                isFavourite={user.favouriteMovies.includes(movieId)}
               />
             </div>
           </Col>

@@ -20,7 +20,7 @@ const FavouritesView = ({
       user.favouriteMovies.includes(movie._id)
     );
     setFavouriteMovies(filteredMovies);
-  }, [movies]);
+  }, [movies, user]);
 
   console.log({ movies });
   console.log({ user });
