@@ -32,9 +32,7 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
   const [birthday, setBirthday] = useState(user.birthday.substring(0, 10));
   const [password, setPassword] = useState(user.password);
   const [allowEdit, setAllowEdit] = useState(false);
-  const [token, setToken] = useState<string>(
-    storedToken ? JSON.parse(storedToken) : ''
-  );
+  const [token] = useState<string>(storedToken ? JSON.parse(storedToken) : '');
   const [showModal, setShowModal] = useState(false);
 
   const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
@@ -63,7 +61,6 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
           window.location.reload();
         } else {
           return response.json().then((data: ErrorResponse) => {
-            console.log(data);
             const failureReason = data.message ? `. ${data.message}.` : '';
             alert(`Profile update failed${failureReason}`);
           });
@@ -87,7 +84,6 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
         handleLogout();
       } else {
         return response.json().then((data: ErrorResponse) => {
-          console.log(data);
           const failureReason = data.message ? `. ${data.message}.` : '';
           alert(`Profile deletion failed${failureReason}`);
         });
@@ -133,7 +129,6 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
                 label="Unlock to update or delete your profile"
                 onChange={() => {
                   setAllowEdit(!allowEdit);
-                  console.log({ allowEdit });
                 }}
               />
               <div className="d-flex justify-content-center py-4">

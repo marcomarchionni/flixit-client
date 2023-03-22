@@ -21,10 +21,6 @@ const FavouritesView = ({
     );
     setFavouriteMovies(filteredMovies);
   }, [movies, user]);
-
-  console.log({ movies });
-  console.log({ user });
-  console.log({ favouriteMovies });
   return (
     <MovieGrid
       user={user}

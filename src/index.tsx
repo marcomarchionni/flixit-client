@@ -7,9 +7,7 @@ import MainView from './components/main-view/main-view';
 import './index.scss';
 
 // Main component (will eventually use all the others)
-const MyFlixApplication = () => {
-  return <MainView />;
-};
+const MyFlixApplication = () => <MainView />;
 
 // Finds the root of your app
 const container = document.querySelector('#root');

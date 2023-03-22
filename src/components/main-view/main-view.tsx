@@ -51,7 +51,6 @@ const MainView = () => {
     })
       .then((response) => response.json())
       .then((updatedUser: User) => {
-        console.log(updatedUser);
         setUser(updatedUser);
         localStorage.setItem('user', JSON.stringify(updatedUser));
       })

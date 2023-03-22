@@ -34,8 +34,6 @@ const RelatedMovies = ({
       differentTitle(m, movie)
     );
   });
-  console.log('RelatedMovies:' + relatedMovies);
-
   return (
     <>
       <h3 className="my-4 text-center text-light">Related Movies</h3>
@@ -43,8 +41,8 @@ const RelatedMovies = ({
         {relatedMovies.map((movie) => (
           <Col key={movie._id} className="mb-4">
             <MovieCard
+              user={user}
               movie={movie}
-              isFavourite={user.favouriteMovies.includes(movie._id)}
               toggleFavourite={addToFavourites}
             />
           </Col>

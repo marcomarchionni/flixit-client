@@ -9,7 +9,7 @@ import { SubmitButton } from '../basic-components/buttons';
 import { PasswordInput, UsernameInput } from '../basic-components/forms';
 
 interface LoginProps {
-  onLoggedIn: Function;
+  onLoggedIn: (user: User, token: string) => void;
 }
 
 interface LoginResponse {
@@ -28,9 +28,9 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
 
     fetch(loginUrl, { method: 'POST' })
       .then((response) => response.json())
-      .then((data: LoginResponse) => {
-        if (data.user && data.token) {
-          onLoggedIn(data.user, data.token);
+      .then(({ user, token }: LoginResponse) => {
+        if (user && token) {
+          onLoggedIn(user, token);
         } else {
           setUsername('');
           setPassword('');
