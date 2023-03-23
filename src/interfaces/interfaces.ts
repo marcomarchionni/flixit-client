@@ -36,7 +36,19 @@ export interface User {
   favouriteMovies: string[];
 }
 
+export interface UserUpdate {
+  username?: string;
+  email?: string;
+  password?: string;
+  birthday?: string;
+}
+
 export interface ErrorResponse {
   status: number;
+  message: string;
+}
+
+export interface AlertContent {
+  type: string;
   message: string;
 }

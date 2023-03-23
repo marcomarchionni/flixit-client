@@ -1,22 +1,25 @@
 import React, { useState } from 'react';
-import { Card, Col, Form, Row } from 'react-bootstrap';
+import { Form } from 'react-bootstrap';
 import { ErrorResponse } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/api-urls';
-import { SignupSuccessAlert } from '../basic-components/alerts';
-import { SubmitButton } from '../basic-components/buttons';
+import AlertBox from '../alerts/alerts';
+import { SubmitButton } from '../layout/buttons';
+import FormCard from '../layout/form-card';
 import {
   BirthdayInput,
   EmailInput,
   PasswordInput,
   UsernameInput,
-} from '../basic-components/forms';
+} from '../layout/forms';
+import MainWrapper from '../layout/main-wrapper';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
   const [password, setPassword] = useState('');
-  const [showSuccessAlert, setShowSuccessAlert] = useState(false);
+  const [alert, setAlert] = useState('');
+  const onAlertClose = () => setAlert('');
 
   const resetFields = () => {
     setUsername('');
@@ -42,11 +45,12 @@ const SignupView = () => {
       .then((response) => {
         if (response.ok) {
           resetFields();
-          setShowSuccessAlert(true);
+          setAlert('SignupSuccessful');
         } else {
           return response.json().then((data: ErrorResponse) => {
             const failureReason = data.message ? `. ${data.message}.` : '';
-            alert(`Signup failed${failureReason}`);
+            console.error(failureReason);
+            setAlert('SignupFailed');
           });
         }
       })
@@ -54,42 +58,35 @@ const SignupView = () => {
   };
 
   return (
-    <Row>
-      <Col Col sm={6} className="mx-auto pt-4 mt-4">
-        <Card className="p-4">
-          <Card.Title className="text-center fi-bigger-card-title">
-            Signup
-          </Card.Title>
-          {showSuccessAlert && (
-            <SignupSuccessAlert
-              handleClose={() => setShowSuccessAlert(false)}
-            />
-          )}
-          <Form
-            onSubmit={handleSubmit}
-            // className="border border-secondary rounded-4 p-4 bg-light"
-          >
-            <UsernameInput
-              value={username}
-              handleValueChange={(e) => setUsername(e.target.value)}
-            />
-            <EmailInput
-              value={email}
-              handleValueChange={(e) => setEmail(e.target.value)}
-            />
-            <BirthdayInput
-              value={birthday}
-              handleValueChange={(e) => setBirthday(e.target.value)}
-            />
-            <PasswordInput
-              value={password}
-              handleValueChange={(e) => setPassword(e.target.value)}
-            />
+    <MainWrapper size="large">
+      <AlertBox alert={alert} onClose={onAlertClose} />
+      <FormCard title="Signup">
+        <Form
+          onSubmit={handleSubmit}
+          // className="border border-secondary rounded-4 p-4 bg-light"
+        >
+          <UsernameInput
+            value={username}
+            handleValueChange={(e) => setUsername(e.target.value)}
+          />
+          <EmailInput
+            value={email}
+            handleValueChange={(e) => setEmail(e.target.value)}
+          />
+          <BirthdayInput
+            value={birthday}
+            handleValueChange={(e) => setBirthday(e.target.value)}
+          />
+          <PasswordInput
+            value={password}
+            handleValueChange={(e) => setPassword(e.target.value)}
+          />
+          <FormCard.Buttons>
             <SubmitButton label="Signup" />
-          </Form>
-        </Card>
-      </Col>
-    </Row>
+          </FormCard.Buttons>
+        </Form>
+      </FormCard>
+    </MainWrapper>
   );
 };
 

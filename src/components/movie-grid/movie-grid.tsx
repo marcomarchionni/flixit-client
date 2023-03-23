@@ -1,44 +1,55 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Movie, User } from '../../interfaces/interfaces';
+import { AlertSimpleBox } from '../alerts/alerts';
+import MainWrapper from '../layout/main-wrapper';
 import MovieCard from '../movie-card/movie-card';
 import Loading from './loading';
-import NoMovies from './no-movies';
 
 interface MovieGridProps {
   user: User;
   movies: Movie[];
-  loadingMovies: boolean;
+  loading: boolean;
+  noMoviesAlert: string;
   toggleFavourite: (id: string) => void;
 }
 
 const MovieGrid = ({
   user,
   movies,
-  loadingMovies,
+  loading,
+  noMoviesAlert,
   toggleFavourite,
 }: MovieGridProps) => {
-  if (loadingMovies) {
+  const [alert, setAlert] = useState('');
+
+  useEffect(() => {
+    if (movies.length === 0) {
+      setAlert(noMoviesAlert);
+    } else {
+      setAlert('');
+    }
+  }, [movies]);
+
+  if (loading) {
     return <Loading />;
   }
 
-  const noMovies = movies.length === 0;
-  if (noMovies) {
-    return <NoMovies />;
-  }
-
   return (
-    <Row className="my-4">
-      {movies.map((movie) => (
-        <Col key={movie._id} xl={3} sm={4} className="mb-4">
-          <MovieCard
-            user={user}
-            movie={movie}
-            toggleFavourite={toggleFavourite}
-          />
-        </Col>
-      ))}
-    </Row>
+    <MainWrapper>
+      <AlertSimpleBox alert={alert} />
+      <Row>
+        {movies.map((movie) => (
+          <Col key={movie._id} className="mb-4">
+            <MovieCard
+              user={user}
+              movie={movie}
+              toggleFavourite={toggleFavourite}
+            />
+          </Col>
+        ))}
+      </Row>
+    </MainWrapper>
   );
 };
 

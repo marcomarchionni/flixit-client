@@ -14,18 +14,21 @@ const FavouritesView = ({
   toggleFavourite,
 }: FavouritesViewProps) => {
   const [favouriteMovies, setFavouriteMovies] = useState<Movie[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const filteredMovies = movies.filter((movie) =>
       user.favouriteMovies.includes(movie._id)
     );
     setFavouriteMovies(filteredMovies);
+    setLoading(false);
   }, [movies, user]);
   return (
     <MovieGrid
       user={user}
       movies={favouriteMovies}
-      loadingMovies={false}
+      loading={loading}
+      noMoviesAlert="NoFavouriteMovies"
       toggleFavourite={toggleFavourite}
     />
   );

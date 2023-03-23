@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Container, Row } from 'react-bootstrap';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Movie, User } from '../../interfaces/interfaces';
 import { buildFavouriteUrl, MOVIES_URL } from '../../utils/api-urls';
 import Header from '../header/header';
+import BodyWrapper from '../layout/body-wrapper';
 import LoginView from '../login-view/login-view';
 import MovieGrid from '../movie-grid/movie-grid';
 import MovieInfo from '../movie-info/movie-info';
-import FavouritesView from '../profile/favourites-view';
+import FavouritesView from '../favourites-view/favourites-view';
 import ProfileView from '../profile/profile-view';
 import SignupView from '../signup-view/signup-view';
 
@@ -73,83 +73,80 @@ const MainView = () => {
 
   return (
     <BrowserRouter>
-      <Container fluid className="bg-dark min-vh-100">
+      <BodyWrapper>
         <Header user={user} handleLogout={handleLogout} />
-        <Row className="justify-content-md-center mt-4 fi-padding-top">
-          <Col xl={9}>
-            <Routes>
-              <Route path="/" element={<Navigate to="/movies" />}></Route>
-              <Route
-                path="/signup"
-                element={user ? <Navigate to="/movies" /> : <SignupView />}
-              />
-              <Route
-                path="/login"
-                element={
-                  user ? (
-                    <Navigate to="/movies" />
-                  ) : (
-                    <LoginView onLoggedIn={handleLogin} />
-                  )
-                }
-              />
-              <Route
-                path={'/users/:username/profile'}
-                element={
-                  user ? (
-                    <ProfileView user={user} handleLogout={handleLogout} />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route
-                path={'/users/:username/favourites'}
-                element={
-                  user ? (
-                    <FavouritesView
-                      user={user}
-                      movies={movies}
-                      toggleFavourite={toggleFavourite}
-                    />
-                  ) : (
-                    <Navigate to="/login" />
-                  )
-                }
-              />
-              <Route
-                path="/movies"
-                element={
-                  !user ? (
-                    <Navigate to="/login" />
-                  ) : (
-                    <MovieGrid
-                      user={user}
-                      movies={movies}
-                      loadingMovies={loadingMovies}
-                      toggleFavourite={toggleFavourite}
-                    />
-                  )
-                }
-              />
-              <Route
-                path={'/movies/:movieId'}
-                element={
-                  !user ? (
-                    <Navigate to="/login" />
-                  ) : (
-                    <MovieInfo
-                      user={user}
-                      movies={movies}
-                      toggleFavourite={toggleFavourite}
-                    />
-                  )
-                }
-              />
-            </Routes>
-          </Col>
-        </Row>
-      </Container>
+        <Routes>
+          <Route path="/" element={<Navigate to="/movies" />}></Route>
+          <Route
+            path="/signup"
+            element={user ? <Navigate to="/movies" /> : <SignupView />}
+          />
+          <Route
+            path="/login"
+            element={
+              user ? (
+                <Navigate to="/movies" />
+              ) : (
+                <LoginView onLoggedIn={handleLogin} />
+              )
+            }
+          />
+          <Route
+            path={'/users/:username/profile'}
+            element={
+              user ? (
+                <ProfileView user={user} handleLogout={handleLogout} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path={'/users/:username/favourites'}
+            element={
+              user ? (
+                <FavouritesView
+                  user={user}
+                  movies={movies}
+                  toggleFavourite={toggleFavourite}
+                />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/movies"
+            element={
+              !user ? (
+                <Navigate to="/login" />
+              ) : (
+                <MovieGrid
+                  user={user}
+                  movies={movies}
+                  loading={loadingMovies}
+                  noMoviesAlert="NoMovies"
+                  toggleFavourite={toggleFavourite}
+                />
+              )
+            }
+          />
+          <Route
+            path={'/movies/:movieId'}
+            element={
+              !user ? (
+                <Navigate to="/login" />
+              ) : (
+                <MovieInfo
+                  user={user}
+                  movies={movies}
+                  toggleFavourite={toggleFavourite}
+                />
+              )
+            }
+          />
+        </Routes>
+      </BodyWrapper>
     </BrowserRouter>
   );
 };

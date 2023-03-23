@@ -3,6 +3,10 @@ body {
   height: 100%;
 }
 
+.main-padding-top {
+  padding-top: 6rem;
+}
+
 // Font, headers
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap');
 
@@ -47,10 +51,6 @@ $modal-content-border-radius: 1rem;
 // .form-control:focus {
 //     background-color: var(--bs-light) !important;
 // }
-
-.fi-padding-top {
-  padding-top: 4rem;
-}
 
 .fi-card-title-font-size {
   font-size: 1.5rem !important;

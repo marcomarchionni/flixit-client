@@ -47,9 +47,18 @@ interface SubmitButtonProps {
 }
 
 export const SubmitButton = ({ label, disabled }: SubmitButtonProps) => (
-  <div className="d-flex justify-content-center py-2">
-    <Button variant="secondary" type="submit" disabled={disabled}>
-      {label}
-    </Button>
-  </div>
+  <Button
+    variant="secondary"
+    type="submit"
+    disabled={disabled}
+    className="mx-2"
+  >
+    {label}
+  </Button>
+);
+
+export const DangerButton = ({ label, disabled }: SubmitButtonProps) => (
+  <Button variant="danger" disabled={disabled} className="mx-2">
+    {label}
+  </Button>
 );

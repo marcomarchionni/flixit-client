@@ -1,22 +1,19 @@
 import React, { useState } from 'react';
-import {
-  Button,
-  Card,
-  Col,
-  Form,
-  FormCheck,
-  FormControl,
-  FormLabel,
-  Row,
-} from 'react-bootstrap';
-import { ErrorResponse, User } from '../../interfaces/interfaces';
+import { Form, FormCheck } from 'react-bootstrap';
+import { ErrorResponse, User, UserUpdate } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/api-urls';
+import { DUMMY_PASSWORD } from '../../utils/constants';
+import { AlertBox } from '../alerts/alerts';
+import { DangerButton, SubmitButton } from '../layout/buttons';
+import FormCard from '../layout/form-card';
 import {
   BirthdayInput,
   EmailInput,
   PasswordInput,
-} from '../basic-components/forms';
-import ConfirmModal from '../basic-components/modal';
+  UsernameInput,
+} from '../layout/forms';
+import MainWrapper from '../layout/main-wrapper';
+import ConfirmModal from '../layout/modal';
 
 interface ProfileViewProps {
   user: User;
@@ -30,43 +27,47 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [birthday, setBirthday] = useState(user.birthday.substring(0, 10));
-  const [password, setPassword] = useState(user.password);
+  const [password, setPassword] = useState(DUMMY_PASSWORD);
   const [allowEdit, setAllowEdit] = useState(false);
   const [token] = useState<string>(storedToken ? JSON.parse(storedToken) : '');
   const [showModal, setShowModal] = useState(false);
+  const [alert, setAlert] = useState('');
+  const onAlertClose = () => setAlert('');
 
-  const handleUpdate = (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    if (!token) {
-      return;
+  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+    try {
+      e.preventDefault();
+      if (!token) {
+        return;
+      }
+      const data: UserUpdate = {
+        username,
+        email,
+        birthday,
+        password: password !== DUMMY_PASSWORD ? password : undefined,
+      };
+
+      const response = await fetch(userProfileUrl, {
+        method: 'PUT',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        setAlert('ProfileUpdateSuccess');
+        setAllowEdit(false);
+        window.location.reload;
+      } else {
+        const { message }: ErrorResponse = await response.json();
+        console.error(message);
+        setAlert('ProfileUpdateFailed');
+      }
+    } catch {
+      (error: Error) => console.error(error);
     }
-    const data = {
-      username,
-      email,
-      birthday,
-      password,
-    };
-
-    fetch(userProfileUrl, {
-      method: 'PUT',
-      body: JSON.stringify(data),
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert('Profile updated!');
-          window.location.reload();
-        } else {
-          return response.json().then((data: ErrorResponse) => {
-            const failureReason = data.message ? `. ${data.message}.` : '';
-            alert(`Profile update failed${failureReason}`);
-          });
-        }
-      })
-      .catch((err: Error) => console.error(err));
   };
 
   const handleDelete = () => {
@@ -85,80 +86,59 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
       } else {
         return response.json().then((data: ErrorResponse) => {
           const failureReason = data.message ? `. ${data.message}.` : '';
-          alert(`Profile deletion failed${failureReason}`);
+          console.error(failureReason);
+          setAlert('DeleteFailed');
         });
       }
     });
   };
 
   return (
-    <Row className="my-4">
-      <Col Col sm={6} className="mx-auto">
-        <Card className="p-4 h-100">
-          <Card.Body>
-            <h2 className="text-center py-2">Profile</h2>
-            <Form onSubmit={handleUpdate}>
-              <Form.Group controlId={`formUsername`} className="my-4">
-                <FormLabel>Username</FormLabel>
-                <FormControl
-                  type="text"
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                  required
-                  minLength={3}
-                  disabled={!allowEdit}
-                ></FormControl>
-              </Form.Group>
-              <EmailInput
-                value={email}
-                handleValueChange={(e) => setEmail(e.target.value)}
-                disabled={!allowEdit}
-              />
-              <BirthdayInput
-                value={birthday}
-                handleValueChange={(e) => setBirthday(e.target.value)}
-                disabled={!allowEdit}
-              />
-              <PasswordInput
-                value={password}
-                handleValueChange={(e) => setPassword(e.target.value)}
-                disabled={!allowEdit}
-              />
-              <FormCheck
-                type="checkbox"
-                label="Unlock to update or delete your profile"
-                onChange={() => {
-                  setAllowEdit(!allowEdit);
-                }}
-              />
-              <div className="d-flex justify-content-center py-4">
-                <Button
-                  variant="secondary"
-                  type="submit"
-                  disabled={!allowEdit}
-                  className="mx-2"
-                >
-                  Update
-                </Button>
-                <Button
-                  variant="danger"
-                  onClick={() => setShowModal(true)}
-                  disabled={!allowEdit}
-                  className="mx-2"
-                >
-                  Delete
-                </Button>
-                <ConfirmModal
-                  show={showModal}
-                  handleClose={() => setShowModal(false)}
-                  handleDelete={handleDelete}
-                ></ConfirmModal>
-              </div>
-            </Form>
-          </Card.Body>
-        </Card>
-      </Col>
-    </Row>
+    <>
+      <MainWrapper>
+        <AlertBox alert={alert} onClose={onAlertClose} />
+        <FormCard title="Profile">
+          <Form onSubmit={handleUpdate}>
+            <UsernameInput
+              value={username}
+              handleValueChange={(e) => setUsername(e.target.value)}
+              disabled={!allowEdit}
+            />
+            <EmailInput
+              value={email}
+              handleValueChange={(e) => setEmail(e.target.value)}
+              disabled={!allowEdit}
+            />
+            <BirthdayInput
+              value={birthday}
+              handleValueChange={(e) => setBirthday(e.target.value)}
+              disabled={!allowEdit}
+            />
+            <PasswordInput
+              value={password}
+              handleValueChange={(e) => setPassword(e.target.value)}
+              disabled={!allowEdit}
+            />
+            <FormCheck
+              type="checkbox"
+              label="Unlock to update or delete your profile"
+              onChange={() => {
+                setAllowEdit(!allowEdit);
+              }}
+            />
+            <FormCard.Buttons>
+              <SubmitButton label="Update" disabled={!allowEdit} />
+              <DangerButton label="Delete" disabled={!allowEdit} />
+            </FormCard.Buttons>
+          </Form>
+        </FormCard>
+      </MainWrapper>
+      <ConfirmModal
+        show={showModal}
+        handleClose={() => setShowModal(false)}
+        handleDelete={handleDelete}
+      ></ConfirmModal>
+    </>
   );
 };
 

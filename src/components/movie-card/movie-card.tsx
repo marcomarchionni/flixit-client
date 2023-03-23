@@ -1,7 +1,7 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
 import { Movie, User } from '../../interfaces/interfaces';
-import { InfoButton, StarButton } from '../basic-components/buttons';
+import { InfoButton, StarButton } from '../layout/buttons';
 
 interface MovieCardProps {
   user: User;
@@ -11,8 +11,8 @@ interface MovieCardProps {
 
 const MovieCard = ({ user, movie, toggleFavourite }: MovieCardProps) => {
   return (
-    <Card className="h-100 border border-secondary rounded-4">
-      <Card.Img variant="top" src={movie.imageUrl} />
+    <Card className="h-100" style={{ width: '15rem' }}>
+      <Card.Img variant="top" src={movie.imageUrl} width="50" />
       <Card.Body className="d-flex flex-column">
         <div className="flex-grow-1 d-flex align-items-center text-center">
           <Card.Title className="flex-grow-1 fi-card-title-font-size">
