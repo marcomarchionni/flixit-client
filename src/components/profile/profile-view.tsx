@@ -82,6 +82,7 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
       },
     }).then((response) => {
       if (response.ok) {
+        console.log('ok');
         handleLogout();
       } else {
         return response.json().then((data: ErrorResponse) => {
@@ -128,7 +129,11 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
             />
             <FormCard.Buttons>
               <SubmitButton label="Update" disabled={!allowEdit} />
-              <DangerButton label="Delete" disabled={!allowEdit} />
+              <DangerButton
+                label="Delete"
+                onClick={handleDelete}
+                disabled={!allowEdit}
+              />
             </FormCard.Buttons>
           </Form>
         </FormCard>

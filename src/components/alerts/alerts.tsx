@@ -8,7 +8,7 @@ interface AlertProps {
 
 const SignupSuccessAlert = ({ onClose }: AlertProps) => (
   <Alert variant="success" onClose={onClose} dismissible>
-    Your profile has been created.
+    <span>Your profile has been created. </span>
     <Alert.Link as={Link} to="/login">
       Please login.
     </Alert.Link>

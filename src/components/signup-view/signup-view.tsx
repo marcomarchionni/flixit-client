@@ -58,7 +58,7 @@ const SignupView = () => {
   };
 
   return (
-    <MainWrapper size="large">
+    <MainWrapper>
       <AlertBox alert={alert} onClose={onAlertClose} />
       <FormCard title="Signup">
         <Form

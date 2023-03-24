@@ -36,7 +36,7 @@ const RelatedMovies = ({
   });
   return (
     <>
-      <h3 className="my-4 text-center text-light">Related Movies</h3>
+      <h3 className="m-4 text-light">Related Movies</h3>
       <Row className="bg-gray">
         {relatedMovies.map((movie) => (
           <Col key={movie._id} className="mb-4">

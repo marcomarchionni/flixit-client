@@ -57,8 +57,23 @@ export const SubmitButton = ({ label, disabled }: SubmitButtonProps) => (
   </Button>
 );
 
-export const DangerButton = ({ label, disabled }: SubmitButtonProps) => (
-  <Button variant="danger" disabled={disabled} className="mx-2">
+interface SimpleButtonProps {
+  label: string;
+  disabled: boolean;
+  onClick: () => void;
+}
+
+export const DangerButton = ({
+  label,
+  disabled,
+  onClick,
+}: SimpleButtonProps) => (
+  <Button
+    variant="danger"
+    disabled={disabled}
+    className="mx-2"
+    onClick={onClick}
+  >
     {label}
   </Button>
 );
