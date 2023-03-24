@@ -47,7 +47,7 @@ const ProfileDeleteFailedAlert = ({ onClose }: AlertProps) => (
 
 const NoFavouritesAlert = () => (
   <Alert key="danger" variant="danger">
-    No favourites yet. Add some movies to your favourites!
+    Nothing to show. Add some movies to your favourites!
   </Alert>
 );
 

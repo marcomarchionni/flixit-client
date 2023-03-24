@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { ErrorResponse } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/api-urls';
-import AlertBox from '../alerts/alerts';
+import { AlertBox } from '../alerts/alerts';
 import { SubmitButton } from '../layout/buttons';
 import FormCard from '../layout/form-card';
 import {

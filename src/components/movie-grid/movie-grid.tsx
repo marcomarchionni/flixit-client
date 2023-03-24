@@ -4,7 +4,7 @@ import { Movie, User } from '../../interfaces/interfaces';
 import { AlertSimpleBox } from '../alerts/alerts';
 import MainWrapper from '../layout/main-wrapper';
 import MovieCard from '../movie-card/movie-card';
-import Loading from './loading';
+import Loading from '../loading-view/loading-view';
 
 interface MovieGridProps {
   user: User;
@@ -38,9 +38,9 @@ const MovieGrid = ({
   return (
     <MainWrapper>
       <AlertSimpleBox alert={alert} />
-      <Row>
+      <Row className="justify-content-center">
         {movies.map((movie) => (
-          <Col key={movie._id} className="mb-4">
+          <Col key={movie._id} style={{ flex: '0  0 15rem' }} className="mb-4">
             <MovieCard
               user={user}
               movie={movie}

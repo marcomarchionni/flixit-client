@@ -3,7 +3,7 @@ import { FormEvent, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { User } from '../../interfaces/interfaces';
 import { buildLoginUrl } from '../../utils/api-urls';
-import AlertBox from '../alerts/alerts';
+import { AlertBox } from '../alerts/alerts';
 import { SubmitButton } from '../layout/buttons';
 import FormCard from '../layout/form-card';
 import { PasswordInput, UsernameInput } from '../layout/forms';
@@ -42,7 +42,7 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
       .catch((err: Error) => console.error(err));
   };
   return (
-    <MainWrapper size="large">
+    <MainWrapper>
       <AlertBox alert={alert} onClose={onAlertClose} />
       <FormCard title="Login">
         <Form onSubmit={handleSubmit}>
