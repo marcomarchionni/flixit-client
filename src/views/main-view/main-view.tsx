@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Header from '../../components/header/header';
-import BodyWrapper from '../../components/layout/body-wrapper';
+import BodyLayout from '../../components/layout/body-layout';
 import SignupView from '../../components/signup-view/signup-view';
 import { Movie } from '../../interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
@@ -37,7 +37,7 @@ const MainView = () => {
 
   return (
     <BrowserRouter>
-      <BodyWrapper>
+      <BodyLayout>
         <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/movies" />}></Route>
@@ -60,7 +60,7 @@ const MainView = () => {
           />
           <Route path={'/movies/:movieId'} element={<MovieInfoView />} />
         </Routes>
-      </BodyWrapper>
+      </BodyLayout>
     </BrowserRouter>
   );
 };

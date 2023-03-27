@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate } from 'react-router-dom';
-import MainWrapper from '../../components/layout/main-wrapper';
+import MainWrapper from '../../components/layout/main-layout';
 import MovieGrid from '../../components/movie-grid/movie-grid';
 import { Movie } from '../../interfaces/interfaces';
 import { useAppSelector } from '../../redux/hooks';

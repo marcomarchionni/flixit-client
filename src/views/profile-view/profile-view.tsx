@@ -11,7 +11,7 @@ import {
   PasswordInput,
   UsernameInput,
 } from '../../components/layout/forms';
-import MainWrapper from '../../components/layout/main-wrapper';
+import MainWrapper from '../../components/layout/main-layout';
 import ConfirmModal from '../../components/layout/modal';
 import { ErrorResponse, UserUpdate } from '../../interfaces/interfaces';
 import { selectToken } from '../../redux/reducers/token';

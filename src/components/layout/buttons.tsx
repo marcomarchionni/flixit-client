@@ -9,13 +9,13 @@ interface StarButtonProps {
 }
 
 export const StarButton = ({
-  handleToggle: toggleFavouriteCallback,
+  handleToggle,
   isOn: isFavourite,
 }: StarButtonProps) => {
   const [favourite, setFavourite] = useState(isFavourite);
   const handleClick = () => {
     setFavourite(!favourite);
-    toggleFavouriteCallback();
+    handleToggle();
   };
   return (
     <Button
@@ -77,3 +77,9 @@ export const DangerButton = ({
     {label}
   </Button>
 );
+
+export const CardButtons = ({
+  children,
+}: {
+  children: JSX.Element | JSX.Element[];
+}) => <div className="d-flex justify-content-center mb-2">{children}</div>;

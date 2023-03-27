@@ -26,6 +26,7 @@ export interface Movie {
   stars: Star[];
   genre: Genre;
   imageUrl: string;
+  photoUrl: string;
 }
 
 export interface User {

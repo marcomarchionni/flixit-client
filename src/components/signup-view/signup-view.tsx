@@ -11,7 +11,7 @@ import {
   PasswordInput,
   UsernameInput,
 } from '../layout/forms';
-import MainWrapper from '../layout/main-wrapper';
+import MainWrapper from '../layout/main-layout';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');
