@@ -1,28 +1,35 @@
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { User } from '../../interfaces/interfaces';
-import { buildLoginUrl } from '../../utils/api-urls';
 import { AlertBox } from '../../components/alerts/alerts';
 import { SubmitButton } from '../../components/layout/buttons';
 import FormCard from '../../components/layout/form-card';
 import { PasswordInput, UsernameInput } from '../../components/layout/forms';
 import MainWrapper from '../../components/layout/main-wrapper';
-
-interface LoginProps {
-  onLoggedIn: (user: User, token: string) => void;
-}
+import { User } from '../../interfaces/interfaces';
+import { useAppDispatch } from '../../redux/hooks';
+import { setToken } from '../../redux/reducers/token';
+import { setUser } from '../../redux/reducers/user';
+import { buildLoginUrl } from '../../utils/api-urls';
 
 interface LoginResponse {
   user?: User;
   token?: string;
 }
 
-const LoginView = ({ onLoggedIn }: LoginProps) => {
+const LoginView = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [alert, setAlert] = useState<string>('');
   const onAlertClose = () => setAlert('');
+  const dispatch = useAppDispatch();
+
+  const handleLogin = (dataUser: User, dataToken: string) => {
+    dispatch(setUser(dataUser));
+    localStorage.setItem('user', JSON.stringify(dataUser));
+    dispatch(setToken(dataToken));
+    localStorage.setItem('token', JSON.stringify(dataToken));
+  };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -32,7 +39,7 @@ const LoginView = ({ onLoggedIn }: LoginProps) => {
       .then((response) => response.json())
       .then(({ user, token }: LoginResponse) => {
         if (user && token) {
-          onLoggedIn(user, token);
+          handleLogin(user, token);
         } else {
           setUsername('');
           setPassword('');

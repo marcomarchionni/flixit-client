@@ -1,72 +1,36 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
-import { Movie, User } from '../../interfaces/interfaces';
-import { useAppDispatch, useAppSelector } from '../../redux/hooks';
-import { setMovies } from '../../redux/reducers/movies';
-import { buildFavouriteUrl, MOVIES_URL } from '../../utils/api-urls';
-import FavouritesView from '../favourites-view/favourites-view';
-import MoviesView from '../movies-view/movies-view';
 import Header from '../../components/header/header';
 import BodyWrapper from '../../components/layout/body-wrapper';
-import LoginView from '../login-view/login-view';
-import MovieInfo from '../movie-info-view/movie-info-view';
-import ProfileView from '../profile-view/profile-view';
 import SignupView from '../../components/signup-view/signup-view';
-import { selectUser, setUser } from '../../redux/reducers/user';
+import { Movie } from '../../interfaces/interfaces';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setLoading } from '../../redux/reducers/loading';
+import { setMovies } from '../../redux/reducers/movies';
+import { selectToken } from '../../redux/reducers/token';
+import { selectUser } from '../../redux/reducers/user';
+import { MOVIES_URL } from '../../utils/api-urls';
+import FavouritesView from '../favourites-view/favourites-view';
+import LoginView from '../login-view/login-view';
+import MovieInfoView from '../movie-info-view/movie-info-view';
+import MoviesView from '../movies-view/movies-view';
+import ProfileView from '../profile-view/profile-view';
 
 const MainView = () => {
-  const storedToken = localStorage.getItem('token');
-  const [token, setToken] = useState<string>(
-    storedToken ? JSON.parse(storedToken) : ''
-  );
+  const token = useAppSelector(selectToken);
   const user = useAppSelector(selectUser);
   const dispatch = useAppDispatch();
-
-  const [loading, setLoading] = useState(false);
-
-  const handleLogin = (dataUser: User, dataToken: string) => {
-    dispatch(setUser(dataUser));
-    localStorage.setItem('user', JSON.stringify(dataUser));
-    setToken(dataToken);
-    localStorage.setItem('token', JSON.stringify(dataToken));
-  };
-
-  const handleLogout = () => {
-    dispatch(setUser(null));
-    setToken('');
-    localStorage.clear();
-  };
-
-  const toggleFavourite = (movieId: string) => {
-    if (!user || !token) {
-      return;
-    }
-    const favoriteUrl = buildFavouriteUrl(user.username, movieId);
-    const movieIsFavourite = user.favouriteMovies.includes(movieId);
-    const httpMethod = movieIsFavourite ? 'DELETE' : 'PUT';
-
-    fetch(favoriteUrl, {
-      method: httpMethod,
-      headers: { Authorization: `Bearer ${token}` },
-    })
-      .then((response) => response.json())
-      .then((updatedUser: User) => {
-        dispatch(setUser(updatedUser));
-        localStorage.setItem('user', JSON.stringify(updatedUser));
-      })
-      .catch((err: Error) => console.error(err));
-  };
 
   useEffect(() => {
     if (!token) {
       return;
     }
-    setLoading(true);
+    dispatch(setLoading(true));
     fetch(MOVIES_URL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => response.json())
       .then((movieData: Movie[]) => {
         dispatch(setMovies(movieData));
-        setLoading(false);
+        dispatch(setLoading(false));
       })
       .catch((err: Error) => console.error(err));
   }, [token]);
@@ -74,7 +38,7 @@ const MainView = () => {
   return (
     <BrowserRouter>
       <BodyWrapper>
-        <Header handleLogout={handleLogout} />
+        <Header />
         <Routes>
           <Route path="/" element={<Navigate to="/movies" />}></Route>
           <Route
@@ -83,58 +47,18 @@ const MainView = () => {
           />
           <Route
             path="/login"
-            element={
-              user ? (
-                <Navigate to="/movies" />
-              ) : (
-                <LoginView onLoggedIn={handleLogin} />
-              )
-            }
+            element={user ? <Navigate to="/movies" /> : <LoginView />}
           />
-          <Route
-            path={'/users/:username/profile'}
-            element={
-              user ? (
-                <ProfileView handleLogout={handleLogout} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
+          <Route path={'/users/:username/profile'} element={<ProfileView />} />
           <Route
             path={'/users/:username/favourites'}
-            element={
-              user ? (
-                <FavouritesView toggleFavourite={toggleFavourite} />
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
+            element={<FavouritesView />}
           />
           <Route
             path="/movies"
-            element={
-              !user ? (
-                <Navigate to="/login" />
-              ) : (
-                <MoviesView
-                  user={user}
-                  loading={loading}
-                  toggleFavourite={toggleFavourite}
-                />
-              )
-            }
+            element={!user ? <Navigate to="/login" /> : <MoviesView />}
           />
-          <Route
-            path={'/movies/:movieId'}
-            element={
-              !user ? (
-                <Navigate to="/login" />
-              ) : (
-                <MovieInfo user={user} toggleFavourite={toggleFavourite} />
-              )
-            }
-          />
+          <Route path={'/movies/:movieId'} element={<MovieInfoView />} />
         </Routes>
       </BodyWrapper>
     </BrowserRouter>

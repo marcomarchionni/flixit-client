@@ -1,4 +1,4 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import {
   Button,
   Dropdown,
@@ -11,17 +11,15 @@ import {
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/user';
+import { useHandleLogout } from '../../utils/hooks';
 
-interface HeaderProps {
-  handleLogout: MouseEventHandler<HTMLButtonElement>;
-}
-
-const Header = ({ handleLogout }: HeaderProps) => {
+const Header = () => {
   const logo = new URL(
     '../../assets/logo.png?as=webp&width=100',
     import.meta.url
   ).toJSON();
   const user = useSelector(selectUser);
+  const handleLogout = useHandleLogout();
 
   return (
     <Navbar

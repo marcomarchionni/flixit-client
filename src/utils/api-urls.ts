@@ -11,3 +11,7 @@ export const buildLoginUrl = (username: string, password: string) => {
 export const buildFavouriteUrl = (username: string, movieId: string) => {
   return `${USERS_URL}/${username}/movies/${movieId}`;
 };
+
+export const buildUserProfileUrl = (username: string) => {
+  return `${USERS_URL}/${username}`;
+};

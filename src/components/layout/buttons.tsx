@@ -4,13 +4,13 @@ import { InfoLg, Star, StarFill } from 'react-bootstrap-icons';
 import { Link } from 'react-router-dom';
 
 interface StarButtonProps {
-  toggleFavouriteCallback: () => void;
-  isFavourite: boolean;
+  handleToggle: () => void;
+  isOn: boolean;
 }
 
 export const StarButton = ({
-  toggleFavouriteCallback,
-  isFavourite,
+  handleToggle: toggleFavouriteCallback,
+  isOn: isFavourite,
 }: StarButtonProps) => {
   const [favourite, setFavourite] = useState(isFavourite);
   const handleClick = () => {

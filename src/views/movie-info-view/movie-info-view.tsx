@@ -3,37 +3,37 @@ import { Col, Row, Table } from 'react-bootstrap';
 import Image from 'react-bootstrap/Image';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
-import { User } from '../../interfaces/interfaces';
-import { useAppSelector } from '../../redux/hooks';
-import { selectMovies } from '../../redux/reducers/movies';
-import { getRelatedMovies } from '../../utils/related-movies';
 import { StarButton } from '../../components/layout/buttons';
 import MainWrapper from '../../components/layout/main-wrapper';
 import MovieGrid from '../../components/movie-grid/movie-grid';
-
-interface MovieViewProps {
-  user: User;
-  toggleFavourite: (movieId: string) => void;
-}
+import { useAppSelector } from '../../redux/hooks';
+import { selectMovies } from '../../redux/reducers/movies';
+import { selectUser } from '../../redux/reducers/user';
+import { useToggleFavourite } from '../../utils/hooks';
+import { getRelatedMovies } from '../../utils/related-movies';
 
 type MovieInfoParams = {
   movieId: string;
 };
 
-const MovieInfo = ({ user, toggleFavourite }: MovieViewProps) => {
+const MovieInfoView = () => {
   const { movieId } = useParams<MovieInfoParams>();
+  const user = useAppSelector(selectUser);
+  if (!user) return <Navigate to="/login" />;
+
   const movies = useAppSelector(selectMovies);
   const movie = movies.find((m) => m._id === movieId); //useEffect??
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, left: 0 });
-  }, []);
-
   if (!movieId || !movie) {
     return <Navigate to="/" />;
   }
   const stars = movie.stars.map((star) => star.name).join(', ');
   const relatedMovies = getRelatedMovies(movies, movie);
+  const toggleFavourite = useToggleFavourite();
+  const isFavorite = user.favouriteMovies.includes(movieId);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, left: 0 });
+  }, []);
 
   return (
     <MainWrapper>
@@ -70,8 +70,8 @@ const MovieInfo = ({ user, toggleFavourite }: MovieViewProps) => {
               <div className="flex-grow-1">{movie.description}</div>
               <div className="d-flex justify-content-center">
                 <StarButton
-                  toggleFavouriteCallback={() => toggleFavourite(movie._id)}
-                  isFavourite={user.favouriteMovies.includes(movieId)}
+                  handleToggle={() => toggleFavourite(movie._id)}
+                  isOn={isFavorite}
                 />
               </div>
             </Col>
@@ -81,11 +81,9 @@ const MovieInfo = ({ user, toggleFavourite }: MovieViewProps) => {
           <Row className="px-2">
             <Col>
               <MovieGrid
-                user={user}
                 items={relatedMovies}
-                loading={false}
-                noMoviesAlert={'NoRelatedMovies'}
-                toggleFavourite={toggleFavourite}
+                isLoading={false}
+                noItemsAlert={'NoRelatedMovies'}
               />
             </Col>
           </Row>
@@ -95,4 +93,4 @@ const MovieInfo = ({ user, toggleFavourite }: MovieViewProps) => {
   );
 };
 
-export default MovieInfo;
+export default MovieInfoView;

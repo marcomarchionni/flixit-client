@@ -1,25 +1,17 @@
 import React from 'react';
+import MainWrapper from '../../components/layout/main-wrapper';
 import MovieGrid from '../../components/movie-grid/movie-grid';
-import { User } from '../../interfaces/interfaces';
 import { useAppSelector } from '../../redux/hooks';
+import { selectLoading } from '../../redux/reducers/loading';
 import { selectMovies } from '../../redux/reducers/movies';
 
-interface MoviesViewProps {
-  user: User;
-  loading: boolean;
-  toggleFavourite: (movieId: string) => void;
-}
-
-const MoviesView = ({ user, loading, toggleFavourite }: MoviesViewProps) => {
+const MoviesView = () => {
   const movies = useAppSelector(selectMovies);
+  const loading = useAppSelector(selectLoading);
   return (
-    <MovieGrid
-      user={user}
-      items={movies}
-      loading={loading}
-      noMoviesAlert="NoMovies"
-      toggleFavourite={toggleFavourite}
-    />
+    <MainWrapper>
+      <MovieGrid items={movies} isLoading={loading} noItemsAlert="NoMovies" />
+    </MainWrapper>
   );
 };
 

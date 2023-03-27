@@ -14,33 +14,32 @@ import {
 import MainWrapper from '../../components/layout/main-wrapper';
 import ConfirmModal from '../../components/layout/modal';
 import { ErrorResponse, UserUpdate } from '../../interfaces/interfaces';
+import { selectToken } from '../../redux/reducers/token';
 import { selectUser } from '../../redux/reducers/user';
-import { USERS_URL } from '../../utils/api-urls';
+import { buildUserProfileUrl } from '../../utils/api-urls';
 import { DUMMY_PASSWORD } from '../../utils/constants';
+import { useHandleLogout } from '../../utils/hooks';
 
-interface ProfileViewProps {
-  handleLogout: () => void;
-}
-
-const ProfileView = ({ handleLogout }: ProfileViewProps) => {
+const ProfileView = () => {
   const user = useSelector(selectUser);
   if (!user) return <Navigate to="/login" />;
+  const token = useSelector(selectToken);
 
-  const userProfileUrl = `${USERS_URL}/${user.username}`;
-  const storedToken = localStorage.getItem('token');
+  const userProfileUrl = buildUserProfileUrl(user.username);
 
   const [username, setUsername] = useState(user.username);
   const [email, setEmail] = useState(user.email);
   const [birthday, setBirthday] = useState(user.birthday.substring(0, 10));
   const [password, setPassword] = useState(DUMMY_PASSWORD);
   const [allowEdit, setAllowEdit] = useState(false);
-  const [token] = useState<string>(storedToken ? JSON.parse(storedToken) : '');
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState('');
 
   const onAlertClose = () => setAlert('');
 
-  const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogout = useHandleLogout();
+
+  const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
       e.preventDefault();
       if (!token) {
@@ -76,7 +75,7 @@ const ProfileView = ({ handleLogout }: ProfileViewProps) => {
     }
   };
 
-  const handleDelete = () => {
+  const handleProfileDelete = () => {
     if (!token) {
       return;
     }
@@ -104,7 +103,7 @@ const ProfileView = ({ handleLogout }: ProfileViewProps) => {
       <MainWrapper>
         <AlertBox alert={alert} onClose={onAlertClose} />
         <FormCard title="Profile">
-          <Form onSubmit={handleUpdate}>
+          <Form onSubmit={handleProfileUpdate}>
             <UsernameInput
               value={username}
               handleValueChange={(e) => setUsername(e.target.value)}
@@ -136,7 +135,7 @@ const ProfileView = ({ handleLogout }: ProfileViewProps) => {
               <SubmitButton label="Update" disabled={!allowEdit} />
               <DangerButton
                 label="Delete"
-                onClick={handleDelete}
+                onClick={handleProfileDelete}
                 disabled={!allowEdit}
               />
             </FormCard.Buttons>
@@ -146,7 +145,7 @@ const ProfileView = ({ handleLogout }: ProfileViewProps) => {
       <ConfirmModal
         show={showModal}
         handleClose={() => setShowModal(false)}
-        handleDelete={handleDelete}
+        handleDelete={handleProfileDelete}
       ></ConfirmModal>
     </>
   );
