@@ -79,6 +79,7 @@ export const AlertBox = ({ alert, onClose }: AlertBoxProps) => {
       )}
       {alert === 'NoFavouriteMovies' && <NoFavouritesAlert />}
       {alert === 'NoMovies' && <NoMoviesAlert />}
+      {alert === '' && <></>}
     </div>
   );
 };
@@ -91,5 +92,6 @@ export const AlertSimpleBox = ({ alert }: AlertSimpleBoxProps) => (
   <div className="w-100 text-center">
     {alert === 'NoFavouriteMovies' && <NoFavouritesAlert />}
     {alert === 'NoMovies' && <NoMoviesAlert />}
+    {alert === '' && <></>}
   </div>
 );

@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { Movie, User } from '../../interfaces/interfaces';
+import { Movie } from '../../interfaces/interfaces';
+import Loading from '../../views/loading-view/loading-view';
 import { AlertSimpleBox } from '../alerts/alerts';
 import MainWrapper from '../layout/main-wrapper';
 import MovieCard from '../movie-card/movie-card';
-import Loading from '../loading-view/loading-view';
 
 interface MovieGridProps {
-  user: User;
-  movies: Movie[];
+  items: Movie[];
   loading: boolean;
   noMoviesAlert: string;
   toggleFavourite: (id: string) => void;
 }
 
 const MovieGrid = ({
-  user,
-  movies,
+  items,
   loading,
   noMoviesAlert,
   toggleFavourite,
@@ -24,12 +22,12 @@ const MovieGrid = ({
   const [alert, setAlert] = useState('');
 
   useEffect(() => {
-    if (movies.length === 0) {
+    if (items.length === 0) {
       setAlert(noMoviesAlert);
     } else {
       setAlert('');
     }
-  }, [movies]);
+  }, [items]);
 
   if (loading) {
     return <Loading />;
@@ -39,13 +37,9 @@ const MovieGrid = ({
     <MainWrapper>
       <AlertSimpleBox alert={alert} />
       <Row className="justify-content-center">
-        {movies.map((movie) => (
+        {items.map((movie) => (
           <Col key={movie._id} style={{ flex: '0  0 15rem' }} className="mb-4">
-            <MovieCard
-              user={user}
-              movie={movie}
-              toggleFavourite={toggleFavourite}
-            />
+            <MovieCard movie={movie} toggleFavourite={toggleFavourite} />
           </Col>
         ))}
       </Row>

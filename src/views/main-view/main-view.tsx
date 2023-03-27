@@ -1,37 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import { Movie, User } from '../../interfaces/interfaces';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import { setMovies } from '../../redux/reducers/movies';
 import { buildFavouriteUrl, MOVIES_URL } from '../../utils/api-urls';
-import Header from '../header/header';
-import BodyWrapper from '../layout/body-wrapper';
-import LoginView from '../login-view/login-view';
-import MovieGrid from '../movie-grid/movie-grid';
-import MovieInfo from '../movie-info/movie-info';
 import FavouritesView from '../favourites-view/favourites-view';
-import ProfileView from '../profile/profile-view';
-import SignupView from '../signup-view/signup-view';
+import MoviesView from '../movies-view/movies-view';
+import Header from '../../components/header/header';
+import BodyWrapper from '../../components/layout/body-wrapper';
+import LoginView from '../login-view/login-view';
+import MovieInfo from '../movie-info-view/movie-info-view';
+import ProfileView from '../profile-view/profile-view';
+import SignupView from '../../components/signup-view/signup-view';
+import { selectUser, setUser } from '../../redux/reducers/user';
 
 const MainView = () => {
-  const storedUser = localStorage.getItem('user');
   const storedToken = localStorage.getItem('token');
-  const [user, setUser] = useState<User | null>(
-    storedUser ? JSON.parse(storedUser) : null
-  );
   const [token, setToken] = useState<string>(
     storedToken ? JSON.parse(storedToken) : ''
   );
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [loadingMovies, setLoadingMovies] = useState(false);
+  const user = useAppSelector(selectUser);
+  const dispatch = useAppDispatch();
+
+  const [loading, setLoading] = useState(false);
 
   const handleLogin = (dataUser: User, dataToken: string) => {
-    setUser(dataUser);
+    dispatch(setUser(dataUser));
     localStorage.setItem('user', JSON.stringify(dataUser));
     setToken(dataToken);
     localStorage.setItem('token', JSON.stringify(dataToken));
   };
 
   const handleLogout = () => {
-    setUser(null);
+    dispatch(setUser(null));
     setToken('');
     localStorage.clear();
   };
@@ -42,7 +43,6 @@ const MainView = () => {
     }
     const favoriteUrl = buildFavouriteUrl(user.username, movieId);
     const movieIsFavourite = user.favouriteMovies.includes(movieId);
-
     const httpMethod = movieIsFavourite ? 'DELETE' : 'PUT';
 
     fetch(favoriteUrl, {
@@ -51,7 +51,7 @@ const MainView = () => {
     })
       .then((response) => response.json())
       .then((updatedUser: User) => {
-        setUser(updatedUser);
+        dispatch(setUser(updatedUser));
         localStorage.setItem('user', JSON.stringify(updatedUser));
       })
       .catch((err: Error) => console.error(err));
@@ -61,12 +61,12 @@ const MainView = () => {
     if (!token) {
       return;
     }
-    setLoadingMovies(true);
+    setLoading(true);
     fetch(MOVIES_URL, { headers: { Authorization: `Bearer ${token}` } })
       .then((response) => response.json())
       .then((movieData: Movie[]) => {
-        setMovies(movieData);
-        setLoadingMovies(false);
+        dispatch(setMovies(movieData));
+        setLoading(false);
       })
       .catch((err: Error) => console.error(err));
   }, [token]);
@@ -74,7 +74,7 @@ const MainView = () => {
   return (
     <BrowserRouter>
       <BodyWrapper>
-        <Header user={user} handleLogout={handleLogout} />
+        <Header handleLogout={handleLogout} />
         <Routes>
           <Route path="/" element={<Navigate to="/movies" />}></Route>
           <Route
@@ -95,7 +95,7 @@ const MainView = () => {
             path={'/users/:username/profile'}
             element={
               user ? (
-                <ProfileView user={user} handleLogout={handleLogout} />
+                <ProfileView handleLogout={handleLogout} />
               ) : (
                 <Navigate to="/login" />
               )
@@ -105,11 +105,7 @@ const MainView = () => {
             path={'/users/:username/favourites'}
             element={
               user ? (
-                <FavouritesView
-                  user={user}
-                  movies={movies}
-                  toggleFavourite={toggleFavourite}
-                />
+                <FavouritesView toggleFavourite={toggleFavourite} />
               ) : (
                 <Navigate to="/login" />
               )
@@ -121,11 +117,9 @@ const MainView = () => {
               !user ? (
                 <Navigate to="/login" />
               ) : (
-                <MovieGrid
+                <MoviesView
                   user={user}
-                  movies={movies}
-                  loading={loadingMovies}
-                  noMoviesAlert="NoMovies"
+                  loading={loading}
                   toggleFavourite={toggleFavourite}
                 />
               )
@@ -137,11 +131,7 @@ const MainView = () => {
               !user ? (
                 <Navigate to="/login" />
               ) : (
-                <MovieInfo
-                  user={user}
-                  movies={movies}
-                  toggleFavourite={toggleFavourite}
-                />
+                <MovieInfo user={user} toggleFavourite={toggleFavourite} />
               )
             }
           />

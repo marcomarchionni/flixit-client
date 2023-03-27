@@ -1,15 +1,18 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { Movie, User } from '../../interfaces/interfaces';
+import { Movie } from '../../interfaces/interfaces';
+import { useAppSelector } from '../../redux/hooks';
+import { selectUser } from '../../redux/reducers/user';
 import { InfoButton, StarButton } from '../layout/buttons';
 
 interface MovieCardProps {
-  user: User;
   movie: Movie;
   toggleFavourite: (id: string) => void;
 }
 
-const MovieCard = ({ user, movie, toggleFavourite }: MovieCardProps) => {
+const MovieCard = ({ movie, toggleFavourite }: MovieCardProps) => {
+  const user = useAppSelector(selectUser);
+  const isFavourite = user ? user.favouriteMovies.includes(movie._id) : false;
   return (
     <Card className="h-100" style={{ width: '15rem' }}>
       <Card.Img variant="top" src={movie.imageUrl} width="50" />
@@ -24,7 +27,7 @@ const MovieCard = ({ user, movie, toggleFavourite }: MovieCardProps) => {
             toggleFavouriteCallback={() => {
               toggleFavourite(movie._id);
             }}
-            isFavourite={user.favouriteMovies.includes(movie._id)}
+            isFavourite={isFavourite}
           />
           <InfoButton goToLink={`/movies/${movie._id}`} />
         </div>

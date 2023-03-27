@@ -1,18 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import { Movie, User } from '../../interfaces/interfaces';
-import MovieGrid from '../movie-grid/movie-grid';
+import { Navigate } from 'react-router-dom';
+import MovieGrid from '../../components/movie-grid/movie-grid';
+import { Movie } from '../../interfaces/interfaces';
+import { useAppSelector } from '../../redux/hooks';
+import { selectMovies } from '../../redux/reducers/movies';
+import { selectUser } from '../../redux/reducers/user';
 
 interface FavouritesViewProps {
-  user: User;
-  movies: Movie[];
   toggleFavourite: (movieId: string) => void;
 }
 
-const FavouritesView = ({
-  user,
-  movies,
-  toggleFavourite,
-}: FavouritesViewProps) => {
+const FavouritesView = ({ toggleFavourite }: FavouritesViewProps) => {
+  const user = useAppSelector(selectUser);
+  if (!user) return <Navigate to="/login" />;
+
+  const movies = useAppSelector(selectMovies);
   const [favouriteMovies, setFavouriteMovies] = useState<Movie[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -25,8 +27,7 @@ const FavouritesView = ({
   }, [movies, user]);
   return (
     <MovieGrid
-      user={user}
-      movies={favouriteMovies}
+      items={favouriteMovies}
       loading={loading}
       noMoviesAlert="NoFavouriteMovies"
       toggleFavourite={toggleFavourite}

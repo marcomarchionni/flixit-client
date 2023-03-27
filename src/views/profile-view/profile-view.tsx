@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
 import { Form, FormCheck } from 'react-bootstrap';
-import { ErrorResponse, User, UserUpdate } from '../../interfaces/interfaces';
-import { USERS_URL } from '../../utils/api-urls';
-import { DUMMY_PASSWORD } from '../../utils/constants';
-import { AlertBox } from '../alerts/alerts';
-import { DangerButton, SubmitButton } from '../layout/buttons';
-import FormCard from '../layout/form-card';
+import { useSelector } from 'react-redux';
+import { Navigate } from 'react-router';
+import { AlertBox } from '../../components/alerts/alerts';
+import { DangerButton, SubmitButton } from '../../components/layout/buttons';
+import FormCard from '../../components/layout/form-card';
 import {
   BirthdayInput,
   EmailInput,
   PasswordInput,
   UsernameInput,
-} from '../layout/forms';
-import MainWrapper from '../layout/main-wrapper';
-import ConfirmModal from '../layout/modal';
+} from '../../components/layout/forms';
+import MainWrapper from '../../components/layout/main-wrapper';
+import ConfirmModal from '../../components/layout/modal';
+import { ErrorResponse, UserUpdate } from '../../interfaces/interfaces';
+import { selectUser } from '../../redux/reducers/user';
+import { USERS_URL } from '../../utils/api-urls';
+import { DUMMY_PASSWORD } from '../../utils/constants';
 
 interface ProfileViewProps {
-  user: User;
   handleLogout: () => void;
 }
 
-const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
+const ProfileView = ({ handleLogout }: ProfileViewProps) => {
+  const user = useSelector(selectUser);
+  if (!user) return <Navigate to="/login" />;
+
   const userProfileUrl = `${USERS_URL}/${user.username}`;
   const storedToken = localStorage.getItem('token');
 
@@ -32,6 +37,7 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
   const [token] = useState<string>(storedToken ? JSON.parse(storedToken) : '');
   const [showModal, setShowModal] = useState(false);
   const [alert, setAlert] = useState('');
+
   const onAlertClose = () => setAlert('');
 
   const handleUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -82,7 +88,6 @@ const ProfileView = ({ user, handleLogout }: ProfileViewProps) => {
       },
     }).then((response) => {
       if (response.ok) {
-        console.log('ok');
         handleLogout();
       } else {
         return response.json().then((data: ErrorResponse) => {

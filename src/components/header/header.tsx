@@ -8,19 +8,20 @@ import {
   Navbar,
   NavItem,
 } from 'react-bootstrap';
+import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
-import { User } from '../../interfaces/interfaces';
+import { selectUser } from '../../redux/reducers/user';
 
 interface HeaderProps {
-  user: User | null;
   handleLogout: MouseEventHandler<HTMLButtonElement>;
 }
 
-const Header = ({ user, handleLogout }: HeaderProps) => {
+const Header = ({ handleLogout }: HeaderProps) => {
   const logo = new URL(
     '../../assets/logo.png?as=webp&width=100',
     import.meta.url
   ).toJSON();
+  const user = useSelector(selectUser);
 
   return (
     <Navbar

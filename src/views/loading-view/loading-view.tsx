@@ -1,6 +1,6 @@
 import React from 'react';
 import { Spinner } from 'react-bootstrap';
-import MainWrapper from '../layout/main-wrapper';
+import MainWrapper from '../../components/layout/main-wrapper';
 
 const Loading = () => {
   return (
