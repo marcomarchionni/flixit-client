@@ -16,7 +16,7 @@ import ConfirmModal from '../../components/layout/modal';
 import { ErrorResponse, UserUpdate } from '../../interfaces/interfaces';
 import { selectToken } from '../../redux/reducers/token';
 import { selectUser } from '../../redux/reducers/user';
-import { buildUserProfileUrl } from '../../utils/api-urls';
+import { buildUserProfileUrl } from '../../utils/urls';
 import { DUMMY_PASSWORD } from '../../utils/constants';
 import { useHandleLogout } from '../../utils/hooks';
 

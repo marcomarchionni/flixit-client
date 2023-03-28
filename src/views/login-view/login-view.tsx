@@ -10,7 +10,7 @@ import { User } from '../../interfaces/interfaces';
 import { useAppDispatch } from '../../redux/hooks';
 import { setToken } from '../../redux/reducers/token';
 import { setUser } from '../../redux/reducers/user';
-import { buildLoginUrl } from '../../utils/api-urls';
+import { buildLoginUrl } from '../../utils/urls';
 
 interface LoginResponse {
   user?: User;

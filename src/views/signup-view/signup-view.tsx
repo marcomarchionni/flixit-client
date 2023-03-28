@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { ErrorResponse } from '../../interfaces/interfaces';
-import { USERS_URL } from '../../utils/api-urls';
+import { USERS_URL } from '../../utils/urls';
 import { AlertBox } from '../../components/alerts/alerts';
 import { SubmitButton } from '../../components/layout/buttons';
 import FormCard from '../../components/cards/form-card';

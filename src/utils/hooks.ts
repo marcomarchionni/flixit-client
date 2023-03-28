@@ -3,7 +3,7 @@ import { User } from '../interfaces/interfaces';
 import { useAppDispatch } from '../redux/hooks';
 import { selectToken, setToken } from '../redux/reducers/token';
 import { selectUser, setUser } from '../redux/reducers/user';
-import { buildFavouriteUrl } from './api-urls';
+import { buildFavouriteUrl } from './urls';
 
 export const useToggleFavourite = () => {
   const user = useSelector(selectUser);

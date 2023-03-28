@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Button,
   Dropdown,
@@ -9,17 +9,24 @@ import {
   NavItem,
 } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/user';
 import { useHandleLogout } from '../../utils/hooks';
 
 const Header = () => {
+  const [query, setQuery] = useState('');
   const logo = new URL(
     '../../assets/logo.png?as=webp&width=100',
     import.meta.url
   ).toJSON();
   const user = useSelector(selectUser);
   const handleLogout = useHandleLogout();
+  const navigate = useNavigate();
+
+  const handleSearch = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    navigate(`search/${query}`);
+  };
 
   return (
     <Navbar
@@ -34,14 +41,18 @@ const Header = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" />
       <Navbar.Collapse id="basic-navbar-nav">
-        <Form className="d-flex">
+        <Form className="d-flex" onSubmit={handleSearch}>
           <Form.Control
             type="search"
             placeholder="Search"
             className="me-2"
             aria-label="Search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
           />
-          <Button variant="outline-light">Search</Button>
+          <Button variant="outline-light" type="submit">
+            Search
+          </Button>
         </Form>
         <Nav className="flex-grow-1 justify-content-end">
           {!user && (

@@ -7,11 +7,14 @@ import MainView from './views/main-view/main-view';
 
 import './index.scss';
 import { store } from './redux/store';
+import { BrowserRouter } from 'react-router-dom';
 
 // Main component (will eventually use all the others)
 const MyFlixApplication = () => (
   <Provider store={store}>
-    <MainView />
+    <BrowserRouter>
+      <MainView />
+    </BrowserRouter>
   </Provider>
 );
 
