@@ -3,7 +3,7 @@ import { FormEvent, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { AlertBox } from '../../components/alerts/alerts';
 import { SubmitButton } from '../../components/layout/buttons';
-import FormCard from '../../components/layout/form-card';
+import FormCard from '../../components/cards/form-card';
 import { PasswordInput, UsernameInput } from '../../components/layout/forms';
 import MainWrapper from '../../components/layout/main-layout';
 import { User } from '../../interfaces/interfaces';

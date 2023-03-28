@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom';
 import Header from '../../components/header/header';
 import BodyLayout from '../../components/layout/body-layout';
-import SignupView from '../../components/signup-view/signup-view';
+import SignupView from '../../views/signup-view/signup-view';
 import { Movie } from '../../interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import { setLoading } from '../../redux/reducers/loading';

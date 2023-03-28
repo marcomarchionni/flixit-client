@@ -24,12 +24,9 @@ h6 {
 $card-bg: var(--bs-light);
 $card-inner-border-radius: 1rem;
 $card-border-radius: 1rem;
+$card-border-width: 0px;
 
-.fi-bigger-card-title {
-  font-size: 2rem !important;
-  margin-bottom: 1rem !important;
-}
-
+//Icons
 .bi {
   display: inline-block;
   vertical-align: -0.125em;
@@ -44,16 +41,8 @@ $modal-content-border-radius: 1rem;
   margin-bottom: 0.25rem !important;
 }
 
-// .form-control {
-//     background-color: var(--bs-light) !important;
+// .fi-card-title-font-size {
+//   font-size: 1.5rem !important;
 // }
-
-// .form-control:focus {
-//     background-color: var(--bs-light) !important;
-// }
-
-.fi-card-title-font-size {
-  font-size: 1.5rem !important;
-}
 
 @import '~bootstrap/scss/bootstrap.scss';

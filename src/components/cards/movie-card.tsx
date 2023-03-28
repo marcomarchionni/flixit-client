@@ -6,11 +6,7 @@ import { selectUser } from '../../redux/reducers/user';
 import { useToggleFavourite } from '../../utils/hooks';
 import { InfoButton, StarButton } from '../layout/buttons';
 
-interface MovieCardProps {
-  movie: Movie;
-}
-
-const MovieCard = ({ movie }: MovieCardProps) => {
+const MovieCard = ({ movie }: { movie: Movie }) => {
   const user = useAppSelector(selectUser);
   const isFavourite = user ? user.favouriteMovies.includes(movie._id) : false;
   const toggleFavourite = useToggleFavourite();
@@ -19,7 +15,7 @@ const MovieCard = ({ movie }: MovieCardProps) => {
       <Card.Img variant="top" src={movie.imageUrl} width="50" />
       <Card.Body className="d-flex flex-column">
         <div className="flex-grow-1 d-flex align-items-center text-center">
-          <Card.Title className="flex-grow-1 fi-card-title-font-size">
+          <Card.Title as="h4" className="flex-grow-1">
             {movie.title.toUpperCase()}
           </Card.Title>
         </div>

@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 import { AlertBox } from '../../components/alerts/alerts';
 import { DangerButton, SubmitButton } from '../../components/layout/buttons';
-import FormCard from '../../components/layout/form-card';
+import FormCard from '../../components/cards/form-card';
 import {
   BirthdayInput,
   EmailInput,

@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Movie } from '../../interfaces/interfaces';
 import { AlertSimpleBox } from '../alerts/alerts';
-import Loading from '../loading/loading';
-import MovieCard from '../movie-card/movie-card';
+import Loading from '../layout/loading';
+import MovieCard from '../cards/movie-card';
 
 interface MovieGridProps {
   items: Movie[];
