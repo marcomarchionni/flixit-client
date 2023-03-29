@@ -20,6 +20,7 @@ export interface Star {
 export interface Movie {
   _id: string;
   title: string;
+  originalTitle: string;
   year: string;
   description: string;
   director: Director;

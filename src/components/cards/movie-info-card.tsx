@@ -30,6 +30,10 @@ const MovieInfoCard = ({ movie }: { movie: Movie }) => {
             <Table borderless size="sm">
               <tbody>
                 <tr>
+                  <th>Original Title</th>
+                  <td>{movie.originalTitle}</td>
+                </tr>
+                <tr>
                   <th>Director</th>
                   <td>{movie.director.name}</td>
                 </tr>

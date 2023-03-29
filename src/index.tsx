@@ -1,7 +1,7 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
 import { Provider } from 'react-redux';
-import MainView from './views/main-view/main-view';
+import App from './app';
 
 // Import statement to indicate that you need to bundle `./index.scss`
 
@@ -13,7 +13,7 @@ import { BrowserRouter } from 'react-router-dom';
 const MyFlixApplication = () => (
   <Provider store={store}>
     <BrowserRouter>
-      <MainView />
+      <App />
     </BrowserRouter>
   </Provider>
 );

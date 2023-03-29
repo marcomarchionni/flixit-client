@@ -19,7 +19,7 @@ export const StarButton = ({
   };
   return (
     <Button
-      variant="outline-secondary"
+      variant="outline-dark"
       size="sm"
       onClick={handleClick}
       className="mx-1"
@@ -35,7 +35,7 @@ interface InfoButtonProps {
 
 export const InfoButton = ({ goToLink }: InfoButtonProps) => (
   <Link to={goToLink}>
-    <Button variant="outline-secondary" size="sm" className="mx-1">
+    <Button variant="outline-dark" size="sm" className="mx-1">
       <InfoLg className="bi" />
     </Button>
   </Link>

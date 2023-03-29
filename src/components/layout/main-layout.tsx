@@ -7,7 +7,7 @@ interface MainWrapperProps {
 
 const MainWrapper = ({ children }: MainWrapperProps) => {
   return (
-    <Row className="main-padding-top">
+    <Row style={{ paddingTop: '6rem' }}>
       <Col xxl={10} className="mx-auto d-flex flex-column align-items-center">
         {children}
       </Col>

@@ -22,7 +22,6 @@ const SearchView = () => {
   }
   useEffect(() => {
     const searchedMovies = searchMovies(movies, query);
-    console.log({ query }, { movies }, { searchedMovies });
     setSearchedMovies(searchedMovies);
   }, [movies, query]);
 

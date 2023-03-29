@@ -9,7 +9,7 @@ type FormCardProps = {
 
 const FormCard = ({ title, children }: FormCardProps) => {
   return (
-    <Card className="p-4" style={{ width: '28rem' }}>
+    <Card className="p-4 form-card-width">
       <Card.Body>
         <Card.Title as="h2" className="text-center py-2">
           {title}
