@@ -26,7 +26,7 @@ export interface Movie {
   director: Director;
   stars: Star[];
   genre: Genre;
-  imageUrl: string;
+  posterUrl: string;
   photoUrl: string;
 }
 

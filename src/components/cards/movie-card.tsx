@@ -12,7 +12,7 @@ const MovieCard = ({ movie }: { movie: Movie }) => {
   const toggleFavourite = useToggleFavourite();
   return (
     <Card className="h-100" style={{ width: '15rem' }}>
-      <Card.Img variant="top" src={movie.imageUrl} width="50" />
+      <Card.Img variant="top" src={movie.posterUrl} width="50" />
       <Card.Body className="d-flex flex-column">
         <div className="flex-grow-1 d-flex align-items-center text-center">
           <Card.Title as="h4" className="flex-grow-1">
