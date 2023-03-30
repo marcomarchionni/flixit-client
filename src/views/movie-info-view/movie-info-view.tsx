@@ -3,12 +3,13 @@ import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import MovieInfoCard from '../../components/cards/movie-info-card';
-import MainLayout from '../../components/ui/main-layout';
+import MainLayout from '../../components/layout/main-layout';
 import MovieGrid from '../../components/movie-grid/movie-grid';
 import { useAppSelector } from '../../redux/hooks';
 import { selectMovies } from '../../redux/reducers/movies';
 import { selectUser } from '../../redux/reducers/user';
 import { getRelatedMovies } from '../../utils/related-movies';
+import { NO_RELATED_MOVIES } from '../../utils/alert-content';
 
 type MovieInfoParams = {
   movieId: string;
@@ -43,7 +44,7 @@ const MovieInfoView = () => {
               <MovieGrid
                 items={relatedMovies}
                 isLoading={false}
-                noItemsAlert={'NoRelatedMovies'}
+                noItemsAlert={NO_RELATED_MOVIES}
               />
             </Col>
           </Row>

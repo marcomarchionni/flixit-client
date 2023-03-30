@@ -4,7 +4,7 @@ import { Movie } from '../../interfaces/interfaces';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUser } from '../../redux/reducers/user';
 import { useToggleFavourite } from '../../hooks/hooks';
-import { StarButton } from '../ui/buttons';
+import { StarButton } from '../buttons/buttons';
 
 const MovieInfoCard = ({ movie }: { movie: Movie }) => {
   const user = useAppSelector(selectUser);

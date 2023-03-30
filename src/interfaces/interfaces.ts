@@ -51,6 +51,7 @@ export interface ErrorResponse {
 }
 
 export interface AlertContent {
-  type: string;
   message: string;
+  variant: 'danger' | 'success' | 'warn';
+  dismissible?: boolean;
 }

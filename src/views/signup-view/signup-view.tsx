@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { ErrorResponse } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/urls';
-import { AlertBox } from '../../components/alerts/alerts';
-import { SubmitButton } from '../../components/ui/buttons';
+import { AlertBox } from '../../components/alert-box/alert-box';
+import { SubmitButton } from '../../components/buttons/buttons';
 import FormCard from '../../components/cards/form-card';
 import {
   BirthdayInput,
@@ -11,7 +11,7 @@ import {
   PasswordInput,
   UsernameInput,
 } from '../../components/forms/forms';
-import MainWrapper from '../../components/ui/main-layout';
+import MainWrapper from '../../components/layout/main-layout';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');

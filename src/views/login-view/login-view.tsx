@@ -1,15 +1,20 @@
 import * as React from 'react';
 import { FormEvent, useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { AlertBox } from '../../components/alerts/alerts';
-import { SubmitButton } from '../../components/ui/buttons';
+import { AlertBox } from '../../components/alert-box/alert-box';
 import FormCard from '../../components/cards/form-card';
 import { PasswordInput, UsernameInput } from '../../components/forms/forms';
-import MainWrapper from '../../components/ui/main-layout';
-import { User } from '../../interfaces/interfaces';
-import { useAppDispatch } from '../../redux/hooks';
+import { SubmitButton } from '../../components/buttons/buttons';
+import MainWrapper from '../../components/layout/main-layout';
+import { AlertContent, User } from '../../interfaces/interfaces';
+import { useAppDispatch, useAppSelector } from '../../redux/hooks';
+import {
+  selectLoginAlert,
+  setLoginAlert,
+} from '../../redux/reducers/loginAlert';
 import { setToken } from '../../redux/reducers/token';
 import { setUser } from '../../redux/reducers/user';
+import { LOGIN_FAILED } from '../../utils/alert-content';
 import { buildLoginUrl } from '../../utils/urls';
 
 interface LoginResponse {
@@ -18,11 +23,16 @@ interface LoginResponse {
 }
 
 const LoginView = () => {
+  // Keeps track of alerts sent by other components before a redirect to login page
+  const loginAlert = useAppSelector(selectLoginAlert);
+  const dispatch = useAppDispatch();
+
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState<string>('');
-  const onAlertClose = () => setAlert('');
-  const dispatch = useAppDispatch();
+  const [alert, setAlert] = useState<AlertContent | null>(loginAlert);
+
+  // Reset loginAlert
+  dispatch(setLoginAlert(null));
 
   const handleLogin = (dataUser: User, dataToken: string) => {
     dispatch(setUser(dataUser));
@@ -43,14 +53,14 @@ const LoginView = () => {
         } else {
           setUsername('');
           setPassword('');
-          setAlert('InvalidLogin');
+          setAlert(LOGIN_FAILED);
         }
       })
       .catch((err: Error) => console.error(err));
   };
   return (
     <MainWrapper>
-      <AlertBox alert={alert} onClose={onAlertClose} />
+      <AlertBox alert={alert} onClose={() => setAlert(null)} />
       <FormCard title="Login">
         <Form onSubmit={handleSubmit}>
           <UsernameInput

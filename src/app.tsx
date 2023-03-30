@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Header from './components/header/header';
-import BodyLayout from './components/ui/body-layout';
+import BodyLayout from './components/layout/body-layout';
 import { Movie } from './interfaces/interfaces';
 import { useAppDispatch, useAppSelector } from './redux/hooks';
 import { setLoading } from './redux/reducers/loading';

@@ -3,6 +3,7 @@ import moviesReducer from '../redux/reducers/movies';
 import userReducer from '../redux/reducers/user';
 import tokenReducer from '../redux/reducers/token';
 import loadingReducer from '../redux/reducers/loading';
+import alertReducer from './reducers/loginAlert';
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ export const store = configureStore({
     user: userReducer,
     token: tokenReducer,
     loading: loadingReducer,
+    loginAlert: alertReducer,
   },
 });
 

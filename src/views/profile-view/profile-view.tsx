@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import { Form, FormCheck } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
-import { AlertBox } from '../../components/alerts/alerts';
-import { DangerButton, SubmitButton } from '../../components/ui/buttons';
+import { AlertBox } from '../../components/alert-box/alert-box';
 import FormCard from '../../components/cards/form-card';
 import {
   BirthdayInput,
@@ -11,19 +10,34 @@ import {
   PasswordInput,
   UsernameInput,
 } from '../../components/forms/forms';
-import MainWrapper from '../../components/ui/main-layout';
-import ConfirmModal from '../../components/ui/modal';
-import { ErrorResponse, UserUpdate } from '../../interfaces/interfaces';
-import { selectToken } from '../../redux/reducers/token';
-import { selectUser } from '../../redux/reducers/user';
-import { buildUserProfileUrl } from '../../utils/urls';
-import { DUMMY_PASSWORD } from '../../utils/constants';
+import { DangerButton, SubmitButton } from '../../components/buttons/buttons';
+import MainWrapper from '../../components/layout/main-layout';
+import ConfirmModal from '../../components/modal/modal';
 import { useHandleLogout } from '../../hooks/hooks';
+import {
+  AlertContent,
+  ErrorResponse,
+  User,
+  UserUpdate,
+} from '../../interfaces/interfaces';
+import { setLoginAlert } from '../../redux/reducers/loginAlert';
+import { selectToken } from '../../redux/reducers/token';
+import { selectUser, setUser } from '../../redux/reducers/user';
+import {
+  CREDENTIALS_UPDATED,
+  profileDeleteFailed,
+  profileUpdateFailed,
+  PROFILE_DELETE_SUCCESS,
+  PROFILE_UPDATE_SUCCESS,
+} from '../../utils/alert-content';
+import { DUMMY_PASSWORD } from '../../utils/constants';
+import { buildUserProfileUrl } from '../../utils/urls';
 
 const ProfileView = () => {
   const user = useSelector(selectUser);
   if (!user) return <Navigate to="/login" />;
   const token = useSelector(selectToken);
+  const dispatch = useDispatch();
 
   const userProfileUrl = buildUserProfileUrl(user.username);
 
@@ -33,11 +47,13 @@ const ProfileView = () => {
   const [password, setPassword] = useState(DUMMY_PASSWORD);
   const [allowEdit, setAllowEdit] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const [alert, setAlert] = useState('');
-
-  const onAlertClose = () => setAlert('');
+  const [alert, setAlert] = useState<AlertContent | null>(null);
 
   const handleLogout = useHandleLogout();
+
+  const credentialsHaveChanged = (user: User, updatedUser: User) =>
+    user.username !== updatedUser.username ||
+    user.password !== updatedUser.password;
 
   const handleProfileUpdate = async (e: React.FormEvent<HTMLFormElement>) => {
     try {
@@ -62,13 +78,24 @@ const ProfileView = () => {
       });
 
       if (response.ok) {
-        setAlert('ProfileUpdateSuccess');
-        setAllowEdit(false);
-        window.location.reload;
+        // profile update successful
+        const updatedUser: User = await response.json();
+        if (credentialsHaveChanged(user, updatedUser)) {
+          // logout user
+          dispatch(setLoginAlert(CREDENTIALS_UPDATED));
+          handleLogout();
+        } else {
+          // keep user logged in
+          dispatch(setUser(updatedUser));
+          setAlert(PROFILE_UPDATE_SUCCESS);
+          setAllowEdit(false);
+          window.location.reload;
+        }
       } else {
+        // profile update failed
         const { message }: ErrorResponse = await response.json();
-        console.error(message);
-        setAlert('ProfileUpdateFailed');
+        console.error(message); // TODO add to alert message
+        setAlert(profileUpdateFailed(message));
       }
     } catch {
       (error: Error) => console.error(error);
@@ -87,12 +114,12 @@ const ProfileView = () => {
       },
     }).then((response) => {
       if (response.ok) {
+        dispatch(setLoginAlert(PROFILE_DELETE_SUCCESS));
         handleLogout();
       } else {
         return response.json().then((data: ErrorResponse) => {
-          const failureReason = data.message ? `. ${data.message}.` : '';
-          console.error(failureReason);
-          setAlert('DeleteFailed');
+          const message = data.message ? data.message : '';
+          setAlert(profileDeleteFailed(message));
         });
       }
     });
@@ -101,7 +128,7 @@ const ProfileView = () => {
   return (
     <>
       <MainWrapper>
-        <AlertBox alert={alert} onClose={onAlertClose} />
+        <AlertBox alert={alert} onClose={() => setAlert(null)} />
         <FormCard title="Profile">
           <Form onSubmit={handleProfileUpdate}>
             <UsernameInput
