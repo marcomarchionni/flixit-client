@@ -162,7 +162,7 @@ const ProfileView = () => {
               <SubmitButton label="Update" disabled={!allowEdit} />
               <DangerButton
                 label="Delete"
-                onClick={handleProfileDelete}
+                onClick={() => setShowModal(true)}
                 disabled={!allowEdit}
               />
             </FormCard.Buttons>

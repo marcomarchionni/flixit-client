@@ -19,7 +19,7 @@ const ConfirmModal = ({
           Delete Profile
         </Modal.Title>
       </Modal.Header>
-      <Modal.Body className="p-4">
+      <Modal.Body className="px-4">
         All your data, including your list of Favourites, will be lost. Would
         you like to proceed?
       </Modal.Body>
