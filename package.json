@@ -17,6 +17,9 @@
     "url": "https://github.com/marcomarchionni/itflix-client/issues"
   },
   "homepage": "https://github.com/marcomarchionni/itflix-client#readme",
+  "prettier": {
+    "singleQuote": true
+  },
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "bootstrap": "^5.2.3",
