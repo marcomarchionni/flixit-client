@@ -3,22 +3,22 @@ import { Form, FormCheck } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Navigate } from 'react-router';
 import { AlertBox } from '../../components/alerts/alerts';
-import { DangerButton, SubmitButton } from '../../components/layout/buttons';
+import { DangerButton, SubmitButton } from '../../components/ui/buttons';
 import FormCard from '../../components/cards/form-card';
 import {
   BirthdayInput,
   EmailInput,
   PasswordInput,
   UsernameInput,
-} from '../../components/layout/forms';
-import MainWrapper from '../../components/layout/main-layout';
-import ConfirmModal from '../../components/layout/modal';
+} from '../../components/forms/forms';
+import MainWrapper from '../../components/ui/main-layout';
+import ConfirmModal from '../../components/ui/modal';
 import { ErrorResponse, UserUpdate } from '../../interfaces/interfaces';
 import { selectToken } from '../../redux/reducers/token';
 import { selectUser } from '../../redux/reducers/user';
 import { buildUserProfileUrl } from '../../utils/urls';
 import { DUMMY_PASSWORD } from '../../utils/constants';
-import { useHandleLogout } from '../../utils/hooks';
+import { useHandleLogout } from '../../hooks/hooks';
 
 const ProfileView = () => {
   const user = useSelector(selectUser);

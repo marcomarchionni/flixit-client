@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import MovieInfoCard from '../../components/cards/movie-info-card';
-import MainLayout from '../../components/layout/main-layout';
+import MainLayout from '../../components/ui/main-layout';
 import MovieGrid from '../../components/movie-grid/movie-grid';
 import { useAppSelector } from '../../redux/hooks';
 import { selectMovies } from '../../redux/reducers/movies';

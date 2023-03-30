@@ -3,15 +3,15 @@ import { Form } from 'react-bootstrap';
 import { ErrorResponse } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/urls';
 import { AlertBox } from '../../components/alerts/alerts';
-import { SubmitButton } from '../../components/layout/buttons';
+import { SubmitButton } from '../../components/ui/buttons';
 import FormCard from '../../components/cards/form-card';
 import {
   BirthdayInput,
   EmailInput,
   PasswordInput,
   UsernameInput,
-} from '../../components/layout/forms';
-import MainWrapper from '../../components/layout/main-layout';
+} from '../../components/forms/forms';
+import MainWrapper from '../../components/ui/main-layout';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');

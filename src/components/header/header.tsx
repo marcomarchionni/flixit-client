@@ -3,8 +3,8 @@ import { Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/user';
-import { useHandleLogout } from '../../utils/hooks';
-import NavSearch from '../layout/nav-search';
+import { useHandleLogout } from '../../hooks/hooks';
+import NavSearch from '../ui/nav-search';
 
 const Header = () => {
   const logo = new URL(

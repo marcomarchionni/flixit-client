@@ -3,8 +3,8 @@ import { Card } from 'react-bootstrap';
 import { Movie } from '../../interfaces/interfaces';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUser } from '../../redux/reducers/user';
-import { useToggleFavourite } from '../../utils/hooks';
-import { InfoButton, StarButton } from '../layout/buttons';
+import { useToggleFavourite } from '../../hooks/hooks';
+import { InfoButton, StarButton } from '../ui/buttons';
 
 const MovieCard = ({ movie }: { movie: Movie }) => {
   const user = useAppSelector(selectUser);

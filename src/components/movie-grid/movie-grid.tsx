@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { Movie } from '../../interfaces/interfaces';
 import { AlertSimpleBox } from '../alerts/alerts';
-import Loading from '../layout/loading';
+import Loading from '../ui/loading';
 import MovieCard from '../cards/movie-card';
 
 interface MovieGridProps {
