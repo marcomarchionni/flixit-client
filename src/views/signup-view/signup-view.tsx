@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { ErrorResponse } from '../../interfaces/interfaces';
+import { AlertContent, ErrorResponse } from '../../interfaces/interfaces';
 import { USERS_URL } from '../../utils/urls';
 import { AlertBox } from '../../components/alert-box/alert-box';
 import { SubmitButton } from '../../components/buttons/buttons';
@@ -12,14 +12,14 @@ import {
   UsernameInput,
 } from '../../components/forms/forms';
 import MainWrapper from '../../components/layout/main-layout';
+import { SIGNUP_FAILED, SIGNUP_SUCCESS } from '../../utils/alert-content';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [birthday, setBirthday] = useState('');
   const [password, setPassword] = useState('');
-  const [alert, setAlert] = useState('');
-  const onAlertClose = () => setAlert('');
+  const [alert, setAlert] = useState<AlertContent | null>(null);
 
   const resetFields = () => {
     setUsername('');
@@ -45,12 +45,12 @@ const SignupView = () => {
       .then((response) => {
         if (response.ok) {
           resetFields();
-          setAlert('SignupSuccessful');
+          setAlert(SIGNUP_SUCCESS);
         } else {
           return response.json().then((data: ErrorResponse) => {
             const failureReason = data.message ? `. ${data.message}.` : '';
             console.error(failureReason);
-            setAlert('SignupFailed');
+            setAlert(SIGNUP_FAILED);
           });
         }
       })
@@ -59,12 +59,9 @@ const SignupView = () => {
 
   return (
     <MainWrapper>
-      <AlertBox alert={alert} onClose={onAlertClose} />
+      <AlertBox alert={alert} onClose={() => setAlert(null)} />
       <FormCard title="Signup">
-        <Form
-          onSubmit={handleSubmit}
-          // className="border border-secondary rounded-4 p-4 bg-light"
-        >
+        <Form onSubmit={handleSubmit}>
           <UsernameInput
             value={username}
             handleValueChange={(e) => setUsername(e.target.value)}
