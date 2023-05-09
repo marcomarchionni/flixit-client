@@ -12,7 +12,7 @@ import {
   UsernameInput,
 } from '../../components/forms/forms';
 import MainWrapper from '../../components/layout/main-layout';
-import { SIGNUP_FAILED, SIGNUP_SUCCESS } from '../../utils/alert-content';
+import { signupFailed, signupSuccess } from '../../utils/alert-content';
 
 const SignupView = () => {
   const [username, setUsername] = useState('');
@@ -45,12 +45,12 @@ const SignupView = () => {
       .then((response) => {
         if (response.ok) {
           resetFields();
-          setAlert(SIGNUP_SUCCESS);
+          setAlert(signupSuccess());
         } else {
           return response.json().then((data: ErrorResponse) => {
-            const failureReason = data.message ? `. ${data.message}.` : '';
+            const failureReason = data.message || '';
             console.error(failureReason);
-            setAlert(SIGNUP_FAILED); // TODO include error message in alert
+            setAlert(signupFailed(failureReason)); // TODO include error message in alert
           });
         }
       })

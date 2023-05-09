@@ -1,5 +1,22 @@
 import { AlertContent } from '../interfaces/interfaces';
 
+export const signupSuccess = (): AlertContent => {
+  return {
+    message: 'Your profile has been created. Please login.',
+    variant: 'success',
+    dismissible: true,
+  };
+};
+
+export const signupFailed = (message: string): AlertContent => {
+  const defaultMessage = 'Signup failed. An error occurred.';
+  return {
+    message: `Signup failed. ${message}` || defaultMessage,
+    variant: 'danger',
+    dismissible: true,
+  };
+};
+
 export const SIGNUP_SUCCESS: AlertContent = {
   message: 'Your profile has been created. Please login.',
   variant: 'success',
