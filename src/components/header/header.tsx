@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/user';
 import { useHandleLogout } from '../../hooks/hooks';
 import NavSearch from '../nav-search/nav-search';
+import { useAppSelector } from '../../redux/hooks';
 
 const Header = () => {
   const logo = new URL(
@@ -12,9 +12,18 @@ const Header = () => {
     import.meta.url
   ).toJSON();
   const [expanded, setExpanded] = useState(false);
-  const user = useSelector(selectUser);
+  const user = useAppSelector(selectUser);
   const handleLogout = useHandleLogout();
   const navigate = useNavigate();
+  const { pathname } = useLocation();
+
+  const showSearch = () => {
+    return !(
+      pathname === '/login' ||
+      pathname === '/signup' ||
+      (user && pathname === `/users/${user.username}/profile`)
+    );
+  };
 
   const handleSearch = (query: string) => {
     if (query) {
@@ -41,7 +50,7 @@ const Header = () => {
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="responsive-navbar-nav" />
       <Navbar.Collapse id="responsive-navbar-nav">
-        <NavSearch handleSearch={handleSearch} />
+        {showSearch() && <NavSearch handleSearch={handleSearch} />}
         <Nav className="flex-grow-1 justify-content-end">
           {!user && (
             <>

@@ -50,7 +50,7 @@ const SignupView = () => {
           return response.json().then((data: ErrorResponse) => {
             const failureReason = data.message ? `. ${data.message}.` : '';
             console.error(failureReason);
-            setAlert(SIGNUP_FAILED);
+            setAlert(SIGNUP_FAILED); // TODO include error message in alert
           });
         }
       })
