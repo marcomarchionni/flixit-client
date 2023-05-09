@@ -34,4 +34,4 @@ The FlixIt client utilizes the following technologies:
 
 ## Live App
 
-Check out the live version of FlixIt at [https://flix-it.netlify.app/](https://flix-it.netlify.app/)
+Check out the live version of FlixIt [here](https://flix-it.netlify.app/)
