@@ -18,11 +18,7 @@ const Header = () => {
   const { pathname } = useLocation();
 
   const showSearch = () => {
-    return !(
-      pathname === '/login' ||
-      pathname === '/signup' ||
-      (user && pathname === `/users/${user.username}/profile`)
-    );
+    return pathname === '/movies' || pathname.includes('/search/');
   };
 
   const handleSearch = (query: string) => {
