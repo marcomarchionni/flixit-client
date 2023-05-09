@@ -31,7 +31,6 @@ const NavSearch = ({ handleSearch }: NavSearchProps) => {
           variant="outline-dark"
           type="submit"
           className="bg-white border border-start-0 ms-n5"
-          href="#search"
         >
           <Search className="bi" />
         </Button>

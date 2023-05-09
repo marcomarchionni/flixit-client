@@ -17,11 +17,6 @@ export const signupFailed = (message: string): AlertContent => {
   };
 };
 
-export const SIGNUP_SUCCESS: AlertContent = {
-  message: 'Your profile has been created. Please login.',
-  variant: 'success',
-  dismissible: true,
-};
 export const SIGNUP_FAILED: AlertContent = {
   message:
     'Signup failed. There is already a user with your username or email.',

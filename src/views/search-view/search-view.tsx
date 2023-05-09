@@ -7,6 +7,7 @@ import { useAppSelector } from '../../redux/hooks';
 import { selectLoading } from '../../redux/reducers/loading';
 import { selectMovies } from '../../redux/reducers/movies';
 import searchMovies from '../../utils/search-movies';
+import { NO_MOVIES } from '../../utils/alert-content';
 
 type SearchParams = {
   query: string;
@@ -30,7 +31,7 @@ const SearchView = () => {
       <MovieGrid
         items={searchedMovies}
         isLoading={loading}
-        noItemsAlert="NoMovies"
+        noItemsAlert={NO_MOVIES}
       />
     </MainWrapper>
   );
