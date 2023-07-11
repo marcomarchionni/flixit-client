@@ -13,7 +13,7 @@ import {
 import { DangerButton, SubmitButton } from '../../components/buttons/buttons';
 import MainWrapper from '../../components/layout/main-layout';
 import ConfirmModal from '../../components/modal/modal';
-import { useHandleLogout } from '../../hooks/hooks';
+import { useHandleLogout } from '../../hooks/use-handle-logout';
 import {
   AlertContent,
   ErrorResponse,

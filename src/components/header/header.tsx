@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Image, Nav, Navbar, NavDropdown } from 'react-bootstrap';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { selectUser } from '../../redux/reducers/user';
-import { useHandleLogout } from '../../hooks/hooks';
+import { useHandleLogout } from '../../hooks/use-handle-logout';
 import NavSearch from '../nav-search/nav-search';
 import { useAppSelector } from '../../redux/hooks';
 

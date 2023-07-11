@@ -3,7 +3,7 @@ import { Card, Col, Row, Table } from 'react-bootstrap';
 import { Movie } from '../../interfaces/interfaces';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUser } from '../../redux/reducers/user';
-import { useToggleFavourite } from '../../hooks/hooks';
+import { useToggleFavourite } from '../../hooks/use-toggle-favourite';
 import { StarButton } from '../buttons/buttons';
 
 const MovieInfoCard = ({ movie }: { movie: Movie }) => {

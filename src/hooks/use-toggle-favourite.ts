@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import { User } from '../interfaces/interfaces';
 import { useAppDispatch } from '../redux/hooks';
-import { selectToken, setToken } from '../redux/reducers/token';
+import { selectToken } from '../redux/reducers/token';
 import { selectUser, setUser } from '../redux/reducers/user';
 import { buildFavouriteUrl } from '../utils/urls';
 
@@ -31,16 +31,4 @@ export const useToggleFavourite = () => {
   };
 
   return toggleFavourite;
-};
-
-export const useHandleLogout = () => {
-  const dispatch = useAppDispatch();
-
-  const handleLogout = () => {
-    dispatch(setUser(null));
-    dispatch(setToken(''));
-    localStorage.clear();
-  };
-
-  return handleLogout;
 };
