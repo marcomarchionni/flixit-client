@@ -1,4 +1,4 @@
-const API_BASE_URL = process.env.BACKEND_URL;
+const API_BASE_URL = process.env.NODE_ENV_BACKEND_URL;
 
 export const MOVIES_URL = API_BASE_URL + '/movies';
 

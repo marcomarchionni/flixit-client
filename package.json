@@ -4,8 +4,8 @@
   "version": "1.0.0",
   "description": "React client using movie-api",
   "scripts": {
-    "start": "parcel",
-    "build": "parcel build",
+    "start": "NODE_ENV=development parcel",
+    "build": "NODE_ENV=development parcel build",
     "aws-build": "NODE_ENV=aws parcel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
