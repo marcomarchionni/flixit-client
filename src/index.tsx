@@ -9,9 +9,6 @@ import './index.scss';
 import { store } from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 
-// eslint-disable-next-line no-console
-console.info(process.env.NODE_ENV_BACKEND_URL);
-
 // Main component (will eventually use all the others)
 const MyFlixApplication = () => (
   <Provider store={store}>
