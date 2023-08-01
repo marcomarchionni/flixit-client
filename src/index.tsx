@@ -9,6 +9,12 @@ import './index.scss';
 import { store } from './redux/store';
 import { BrowserRouter } from 'react-router-dom';
 
+// Import env variables
+import dotenv from 'dotenv';
+dotenv.config();
+// eslint-disable-next-line no-console
+console.info(process.env.BACKEND_URL);
+
 // Main component (will eventually use all the others)
 const MyFlixApplication = () => (
   <Provider store={store}>

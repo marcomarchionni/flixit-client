@@ -5,6 +5,8 @@
   "description": "React client using movie-api",
   "scripts": {
     "start": "parcel",
+    "build": "parcel build",
+    "aws-build": "NODE_ENV=aws parcel build",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -23,6 +25,7 @@
   "dependencies": {
     "@reduxjs/toolkit": "^1.9.3",
     "bootstrap": "^5.2.3",
+    "dotenv": "^16.3.1",
     "parcel": "^2.8.3",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.2",
@@ -34,15 +37,21 @@
   },
   "devDependencies": {
     "@parcel/transformer-sass": "^2.8.3",
+    "@types/node": "^20.4.5",
     "@types/react": "^18.0.28",
     "@types/react-dom": "^18.0.11",
     "@typescript-eslint/eslint-plugin": "^5.56.0",
     "@typescript-eslint/parser": "^5.56.0",
+    "crypto-browserify": "^3.12.0",
     "eslint": "^8.36.0",
     "eslint-config-prettier": "^8.8.0",
     "eslint-plugin-prettier": "^4.2.1",
+    "events": "^3.3.0",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "process": "^0.11.10",
     "sharp": "^0.31.3",
+    "stream-browserify": "^3.0.0",
     "typescript": "^4.9.5"
   }
 }

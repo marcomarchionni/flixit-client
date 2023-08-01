@@ -1,4 +1,4 @@
-const API_BASE_URL = 'https://itflix-api.herokuapp.com';
+const API_BASE_URL = process.env.BACKEND_URL;
 
 export const MOVIES_URL = API_BASE_URL + '/movies';
 
