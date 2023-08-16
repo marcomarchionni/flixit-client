@@ -18,6 +18,10 @@ $card-inner-border-radius: 1rem;
 $card-border-radius: 1rem;
 $card-border-width: 0px;
 
+.card {
+  overflow: hidden;
+}
+
 .form-card-width {
   width: 100%;
   max-width: 28rem;
@@ -68,6 +72,40 @@ $navbar-dark-toggler-border-color: #f8f9fa;
 
 #collapsible-nav-dropdown {
   padding: 0.5rem !important;
+}
+
+// Carousel
+.carousel-item img {
+  width: 100%; /* Set the width to take up the full width of the carousel */
+  height: 400px; /* Set a fixed height */
+  object-fit: contain; /* Resize the image to fit within the width and height while maintaining aspect ratio */
+  background-color: black; /* Set a black background to fill in any space around the image */
+}
+
+.thumbnails-gallery-outer-container {
+  background-color: black;
+  display: flex;
+  width: 100%;
+  overflow-x: scroll; /* Allow horizontal scrolling */
+  overflow-y: hidden;
+}
+
+.thumbnails-gallery-inner-container {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.thumbnail {
+  cursor: pointer;
+  margin: 6px 3px;
+  height: 100px;
+}
+
+.active-thumbnail {
+  border: 2px solid white;
+  // margin: 3px; /* Adjusting for the border */
 }
 
 @import '~bootstrap/scss/bootstrap.scss';

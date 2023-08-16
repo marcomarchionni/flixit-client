@@ -1,20 +1,25 @@
 import React from 'react';
 import { Card, Col, Row, Table } from 'react-bootstrap';
-import { Movie } from '../../interfaces/interfaces';
+import { useToggleFavourite } from '../../hooks/use-toggle-favourite';
+import { Movie } from '../../types/interfaces';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUser } from '../../redux/reducers/user';
-import { useToggleFavourite } from '../../hooks/use-toggle-favourite';
 import { StarButton } from '../buttons/buttons';
+import { getImageUrls, getResizedImageUrls } from '../../utils/urls';
+import CardCarousel from '../card-carousel/card-carousel';
 
 const MovieInfoCard = ({ movie }: { movie: Movie }) => {
   const user = useAppSelector(selectUser);
   const toggleFavourite = useToggleFavourite();
   const isFavorite = user ? user.favouriteMovies.includes(movie._id) : false;
   const stars = movie.stars.map((star) => star.name).join(', ');
+  const imageUrls = getImageUrls(movie);
+  const resizedImageUrls = getResizedImageUrls(movie);
 
   return (
     <Card>
-      <Card.Img variant="top" src={movie.photoUrl} alt="movie photo" />
+      <CardCarousel imageUrls={imageUrls} resizedImageUrls={resizedImageUrls} />
+      {/* <Card.Img variant="top" src={imageUrls[0]} alt="movie photo" /> */}
       <Card.Body className="px-5 px-4">
         <Card.Title as="h2" className="text-center my-3">
           {movie.title}

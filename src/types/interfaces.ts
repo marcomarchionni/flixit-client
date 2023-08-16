@@ -26,8 +26,10 @@ export interface Movie {
   director: Director;
   stars: Star[];
   genre: Genre;
-  posterUrl: string;
-  photoUrl: string;
+  posterUrl?: string;
+  photoUrl?: string;
+  imageUrls?: string[];
+  resizedImageUrls?: string[];
 }
 
 export interface User {

@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { User } from '../interfaces/interfaces';
+import { User } from '../types/interfaces';
 import { useAppDispatch } from '../redux/hooks';
 import { selectToken } from '../redux/reducers/token';
 import { selectUser, setUser } from '../redux/reducers/user';

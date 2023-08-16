@@ -1,6 +1,6 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import { Movie } from '../../interfaces/interfaces';
+import { Movie } from '../../types/interfaces';
 import { useAppSelector } from '../../redux/hooks';
 import { selectUser } from '../../redux/reducers/user';
 import { useToggleFavourite } from '../../hooks/use-toggle-favourite';

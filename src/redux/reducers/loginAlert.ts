@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { AlertContent } from '../../interfaces/interfaces';
+import { AlertContent } from '../../types/interfaces';
 import { RootState } from '../store';
 
 interface LoginAlertState {
