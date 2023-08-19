@@ -17,15 +17,15 @@ const MovieInfoCard = ({
   movie: Movie | null;
   isLoading: boolean;
 }) => {
+  const user = useAppSelector(selectUser);
+  const toggleFavourite = useToggleFavourite();
+
   if (isLoading) {
-    console.log('Loading');
     return <Loading />;
   }
   if (!movie) {
     return <Navigate to="/" />;
   }
-  const user = useAppSelector(selectUser);
-  const toggleFavourite = useToggleFavourite();
   const isFavorite = user ? user.favouriteMovies.includes(movie._id) : false;
   const stars = movie.stars.map((star) => star.name).join(', ');
   const imageUrls = getImageUrls(movie);

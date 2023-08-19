@@ -23,6 +23,7 @@ const MovieInfoView = () => {
 
   const { movieId } = useParams<MovieInfoParams>();
   if (!movieId) {
+    console.error('MovieInfoView: movieId is undefined');
     return <Navigate to="/" />;
   }
 
