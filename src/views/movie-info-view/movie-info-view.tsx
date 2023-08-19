@@ -33,21 +33,17 @@ const MovieInfoView = () => {
 
   return (
     <MainLayout>
-      <Row className="gb-4">
-        <Col lg={9} md={8}>
+      <Row className="mb-4 g-4 w-100">
+        <Col lg={9}>
           <MovieInfoCard movie={movie} />
         </Col>
-        <Col lg={3} md={4}>
-          <Row className="px-2">
-            <Col className="d-flex flex-column">
-              <h2 className="text-light text-center mb-4">Related Movies</h2>
-              <MovieGrid
-                items={relatedMovies}
-                isLoading={false}
-                noItemsAlert={NO_RELATED_MOVIES}
-              />
-            </Col>
-          </Row>
+        <Col lg={3} className="d-flex flex-column">
+          <h2 className="text-light text-center mb-4">Related Movies</h2>
+          <MovieGrid
+            items={relatedMovies}
+            isLoading={false}
+            noItemsAlert={NO_RELATED_MOVIES}
+          />
         </Col>
       </Row>
     </MainLayout>

@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Movie } from '../interfaces/interfaces';
+import { Movie } from '../types/interfaces';
 import { useAppSelector, useAppDispatch } from '../redux/hooks';
 import { setLoading } from '../redux/reducers/loading';
 import { setMovies } from '../redux/reducers/movies';

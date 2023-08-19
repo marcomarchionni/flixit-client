@@ -7,11 +7,11 @@ import { useAppSelector } from './redux/hooks';
 import { selectUser } from './redux/reducers/user';
 import FavouritesView from './views/favourites-view/favourites-view';
 import LoginView from './views/login-view/login-view';
-import MovieInfoView from './views/movie-info-view/movie-info-view';
 import MoviesView from './views/movies-view/movies-view';
 import ProfileView from './views/profile-view/profile-view';
 import SearchView from './views/search-view/search-view';
 import SignupView from './views/signup-view/signup-view';
+import MovieInfoView from './views/movie-info-view/movie-info-view';
 
 const App = () => {
   const user = useAppSelector(selectUser);

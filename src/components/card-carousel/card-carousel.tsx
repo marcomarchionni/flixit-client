@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Carousel } from 'react-bootstrap';
-import ThumbnailsGallery from './thumbnails-stripe';
+import ThumbnailsGallery from './thumbnails-gallery';
 
 interface CardCarouselProps {
   imageUrls: string[];
@@ -12,7 +12,7 @@ const CardCarousel = ({ imageUrls, resizedImageUrls }: CardCarouselProps) => {
   const handleSelect = (selectedIndex) => setIndex(selectedIndex);
   return (
     <>
-      <Carousel activeIndex={index} onSelect={handleSelect}>
+      <Carousel activeIndex={index} onSelect={handleSelect} indicators={false}>
         {imageUrls.map((imageUrl, idx) => (
           <Carousel.Item key={idx}>
             <img src={imageUrl} alt={`slide-${idx}`} />

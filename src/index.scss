@@ -14,8 +14,8 @@ h6 {
 
 // Card;
 $card-bg: var(--bs-light);
-$card-inner-border-radius: 1rem;
-$card-border-radius: 1rem;
+$card-inner-border-radius: 0.5rem;
+$card-border-radius: 0.5rem;
 $card-border-width: 0px;
 
 .card {
@@ -82,30 +82,62 @@ $navbar-dark-toggler-border-color: #f8f9fa;
   background-color: black; /* Set a black background to fill in any space around the image */
 }
 
-.thumbnails-gallery-outer-container {
+// Thumbnails Gallery
+.thumbnails-gallery {
   background-color: black;
-  display: flex;
+  position: relative;
   width: 100%;
-  overflow-x: scroll; /* Allow horizontal scrolling */
-  overflow-y: hidden;
-}
 
-.thumbnails-gallery-inner-container {
-  flex-grow: 1;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
+  .thumbnails-gallery-reel {
+    min-width: 100%;
+    display: flex;
+    align-items: center;
+    overflow-x: scroll;
+    &.centered {
+      justify-content: center;
+    }
+  }
 
-.thumbnail {
-  cursor: pointer;
-  margin: 6px 3px;
-  height: 100px;
-}
-
-.active-thumbnail {
-  border: 2px solid white;
-  // margin: 3px; /* Adjusting for the border */
+  .thumbnail {
+    cursor: pointer;
+    margin: 6px 3px;
+    height: 100px;
+    flex: 0 0 auto;
+    &.active-thumbnail {
+      border: 2px solid white;
+    }
+  }
 }
 
 @import '~bootstrap/scss/bootstrap.scss';
+
+// Customize Bootstrap classes
+.carousel-control-prev,
+.carousel-control-next {
+  width: 5%;
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+// Create aliases for Bootstrap classes
+.gallery-control-prev {
+  @extend .carousel-control-prev;
+}
+
+.gallery-control-next {
+  @extend .carousel-control-next;
+}
+
+.hidden {
+  opacity: 0;
+  &:hover {
+    opacity: 0;
+  }
+}
+
+.gallery-control-prev-icon {
+  @extend .carousel-control-prev-icon;
+}
+
+.gallery-control-next-icon {
+  @extend .carousel-control-next-icon;
+}
