@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { AlertContent, Movie } from '../../interfaces/interfaces';
+import { AlertContent, Movie } from '../../types/interfaces';
 import { AlertBox } from '../alert-box/alert-box';
 import MovieCard from '../cards/movie-card';
 import Loading from '../loading/loading';

@@ -1,4 +1,4 @@
-import { Movie } from '../interfaces/interfaces';
+import { Movie } from '../types/interfaces';
 
 const differentTitle = (movieOne: Movie, movieTwo: Movie): boolean => {
   return movieOne.title !== movieTwo.title;

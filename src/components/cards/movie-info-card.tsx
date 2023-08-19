@@ -7,8 +7,23 @@ import { selectUser } from '../../redux/reducers/user';
 import { StarButton } from '../buttons/buttons';
 import { getImageUrls, getResizedImageUrls } from '../../utils/urls';
 import CardCarousel from '../card-carousel/card-carousel';
+import Loading from '../loading/loading';
+import { Navigate } from 'react-router';
 
-const MovieInfoCard = ({ movie }: { movie: Movie }) => {
+const MovieInfoCard = ({
+  movie,
+  isLoading,
+}: {
+  movie: Movie | null;
+  isLoading: boolean;
+}) => {
+  if (isLoading) {
+    console.log('Loading');
+    return <Loading />;
+  }
+  if (!movie) {
+    return <Navigate to="/" />;
+  }
   const user = useAppSelector(selectUser);
   const toggleFavourite = useToggleFavourite();
   const isFavorite = user ? user.favouriteMovies.includes(movie._id) : false;
@@ -19,7 +34,6 @@ const MovieInfoCard = ({ movie }: { movie: Movie }) => {
   return (
     <Card>
       <CardCarousel imageUrls={imageUrls} resizedImageUrls={resizedImageUrls} />
-      {/* <Card.Img variant="top" src={imageUrls[0]} alt="movie photo" /> */}
       <Card.Body className="px-5 px-4">
         <Card.Title as="h2" className="text-center my-3">
           {movie.title}

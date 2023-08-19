@@ -1,7 +1,8 @@
-import { MOVIES_URL } from '../utils/urls';
+import { buildMovieByIdUrl } from '../utils/urls';
 
-export const fetchMovies = (token: string) => {
-  return fetch(MOVIES_URL, { headers: { Authorization: `Bearer ${token}` } })
+export const fetchMovieById = (movieId: string, token: string) => {
+  const movieByIdUrl = buildMovieByIdUrl(movieId);
+  return fetch(movieByIdUrl, { headers: { Authorization: `Bearer ${token}` } })
     .then((response) => {
       if (!response.ok) {
         if (response.status === 401) {
