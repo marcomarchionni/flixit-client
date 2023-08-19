@@ -19,6 +19,7 @@ const ThumbnailsGallery = ({
   const [hideControlNext, setHideControlNext] = useState(false);
   const [reelCentered, setReelCentered] = useState(true);
   const scrollAmount = 200;
+  const minSignificantOverflow = 2;
 
   const scroll = (amount: number) => {
     if (reelRef.current) {
@@ -38,31 +39,23 @@ const ThumbnailsGallery = ({
   };
 
   const handleGalleryAppearence = () => {
-    if (galleryRef.current && reelRef.current) {
-      const gallery = galleryRef.current;
+    if (reelRef.current) {
       const reel = reelRef.current;
 
       // Calculate if the reel has left and/or right overflows
-      const leftOverflow = reel.scrollLeft;
-      console.log('leftOverflow', leftOverflow);
+      const noLeftOverflow = reel.scrollLeft < minSignificantOverflow;
+      const noRightOverflow =
+        reel.scrollWidth - reel.scrollLeft - reel.clientWidth <
+        minSignificantOverflow;
 
-      const rightOverflow =
-        reel.scrollWidth - reel.scrollLeft - gallery.clientWidth;
-      console.log('rightOverflow', rightOverflow);
-      console.log('reel.clientWidth', reel.clientWidth);
-      console.log('reel.scrollWidth', reel.scrollWidth);
-      console.log('gallery.clientWidth', gallery.clientWidth);
-
-      // Set gallery appearence
-      setHideControlPrev(leftOverflow < 2);
-      setHideControlNext(rightOverflow < 2);
-      setReelCentered(leftOverflow === 0 && rightOverflow === 0);
+      // Show hide control buttons and center thumbnail appearence based on overflows
+      setHideControlPrev(noLeftOverflow);
+      setHideControlNext(noRightOverflow);
+      setReelCentered(noLeftOverflow && noRightOverflow);
     }
   };
 
   useEffect(() => {
-    handleGalleryAppearence();
-
     // Update gallery appeareance when window resizes
     window.addEventListener('resize', handleGalleryAppearence);
 
@@ -99,6 +92,7 @@ const ThumbnailsGallery = ({
             alt={`thumbnail-${idx}`}
             onClick={() => handleSelect(idx)}
             className={`thumbnail ${index === idx ? 'active-thumbnail' : ''}`}
+            onLoad={handleGalleryAppearence}
           />
         ))}
       </div>
