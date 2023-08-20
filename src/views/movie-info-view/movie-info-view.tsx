@@ -3,7 +3,7 @@ import { Col, Row } from 'react-bootstrap';
 import { useParams } from 'react-router';
 import { Navigate } from 'react-router-dom';
 import MovieInfoCard from '../../components/cards/movie-info-card';
-import MainLayout from '../../components/layout/main-layout';
+import MainWrapper from '../../components/layout/main-wrapper';
 import MovieGrid from '../../components/movie-grid/movie-grid';
 import { useMovieById } from '../../hooks/use-movie-by-id';
 import { useAppSelector } from '../../redux/hooks';
@@ -36,12 +36,12 @@ const MovieInfoView = () => {
   }, [movieId]);
 
   return (
-    <MainLayout>
+    <MainWrapper>
       <Row className="mb-4 g-4 w-100">
-        <Col lg={9}>
+        <Col lg={9} className="d-flex flex-column align-items-center">
           <MovieInfoCard movie={movie} isLoading={isLoading} />
         </Col>
-        <Col lg={3} className="d-flex flex-column">
+        <Col lg={3} className="d-flex flex-column align-items-center">
           <h2 className="text-light text-center mb-4">Related Movies</h2>
           <MovieGrid
             items={relatedMovies}
@@ -50,7 +50,7 @@ const MovieInfoView = () => {
           />
         </Col>
       </Row>
-    </MainLayout>
+    </MainWrapper>
   );
 };
 

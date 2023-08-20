@@ -11,7 +11,7 @@ import {
   UsernameInput,
 } from '../../components/forms/forms';
 import { DangerButton, SubmitButton } from '../../components/buttons/buttons';
-import MainWrapper from '../../components/layout/main-layout';
+import MainWrapper from '../../components/layout/main-wrapper';
 import ConfirmModal from '../../components/modal/modal';
 import { useHandleLogout } from '../../hooks/use-handle-logout';
 import {
@@ -19,7 +19,7 @@ import {
   ErrorResponse,
   User,
   UserUpdate,
-} from '../../interfaces/interfaces';
+} from '../../types/interfaces';
 import { setLoginAlert } from '../../redux/reducers/loginAlert';
 import { selectToken } from '../../redux/reducers/token';
 import { selectUser, setUser } from '../../redux/reducers/user';

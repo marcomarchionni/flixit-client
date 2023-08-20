@@ -1,5 +1,5 @@
 import React from 'react';
-import MainWrapper from '../../components/layout/main-layout';
+import MainWrapper from '../../components/layout/main-wrapper';
 import MovieGrid from '../../components/movie-grid/movie-grid';
 import { useAppSelector } from '../../redux/hooks';
 import { selectLoading } from '../../redux/reducers/loading';

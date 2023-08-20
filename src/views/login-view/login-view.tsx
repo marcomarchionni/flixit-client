@@ -5,8 +5,8 @@ import { AlertBox } from '../../components/alert-box/alert-box';
 import FormCard from '../../components/cards/form-card';
 import { PasswordInput, UsernameInput } from '../../components/forms/forms';
 import { SubmitButton } from '../../components/buttons/buttons';
-import MainWrapper from '../../components/layout/main-layout';
-import { AlertContent, User } from '../../interfaces/interfaces';
+import MainWrapper from '../../components/layout/main-wrapper';
+import { AlertContent, User } from '../../types/interfaces';
 import { useAppDispatch, useAppSelector } from '../../redux/hooks';
 import {
   selectLoginAlert,

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
-import MainWrapper from '../../components/layout/main-layout';
+import MainWrapper from '../../components/layout/main-wrapper';
 import MovieGrid from '../../components/movie-grid/movie-grid';
-import { Movie } from '../../interfaces/interfaces';
+import { Movie } from '../../types/interfaces';
 import { useAppSelector } from '../../redux/hooks';
 import { selectLoading } from '../../redux/reducers/loading';
 import { selectMovies } from '../../redux/reducers/movies';

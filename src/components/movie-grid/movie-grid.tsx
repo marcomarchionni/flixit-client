@@ -22,6 +22,7 @@ const MovieGrid = ({ items, isLoading, noItemsAlert }: MovieGridProps) => {
     }
   }, [items]);
 
+  // eslint-disable-next-line no-constant-condition
   if (isLoading) {
     return <Loading />;
   }

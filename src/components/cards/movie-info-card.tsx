@@ -32,7 +32,7 @@ const MovieInfoCard = ({
   const resizedImageUrls = getResizedImageUrls(movie);
 
   return (
-    <Card>
+    <Card className="w-100">
       <CardCarousel imageUrls={imageUrls} resizedImageUrls={resizedImageUrls} />
       <Card.Body className="px-5 px-4">
         <Card.Title as="h2" className="text-center my-3">

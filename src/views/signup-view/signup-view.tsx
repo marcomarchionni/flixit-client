@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Form } from 'react-bootstrap';
-import { AlertContent, ErrorResponse } from '../../interfaces/interfaces';
+import { AlertContent, ErrorResponse } from '../../types/interfaces';
 import { USERS_URL } from '../../utils/urls';
 import { AlertBox } from '../../components/alert-box/alert-box';
 import { SubmitButton } from '../../components/buttons/buttons';
@@ -11,7 +11,7 @@ import {
   PasswordInput,
   UsernameInput,
 } from '../../components/forms/forms';
-import MainWrapper from '../../components/layout/main-layout';
+import MainWrapper from '../../components/layout/main-wrapper';
 import { signupFailed, signupSuccess } from '../../utils/alert-content';
 
 const SignupView = () => {
